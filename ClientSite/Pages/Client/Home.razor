@@ -39,7 +39,6 @@
                                 }
                             </div>
                         }
-
                     </div>
                 }
             </div>
@@ -53,7 +52,6 @@
             </button>
         </div>
     }
-
 
     <!-- About Section -->
     <section class="about-preview py-5 position-relative bg-light">
@@ -119,11 +117,12 @@
             <!-- Video Modal -->
             @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
             {
+                var embedUrl = aboutSection.VideoUrl.Replace("watch?v=", "embed/");
                 <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content border-0 rounded-4 overflow-hidden">
                             <div class="ratio ratio-16x9">
-                                <iframe src="@aboutSection.VideoUrl"
+                                <iframe src="@embedUrl"
                                         title="@aboutSection.Title"
                                         allow="autoplay; encrypted-media"
                                         allowfullscreen></iframe>
@@ -158,17 +157,6 @@
         <TeamMembers />
     </div>   
 </div>
-
-@* JS *@
-<script>
-    var myCarousel = document.querySelector('#homeCarousel');
-    if (myCarousel) {
-        var carousel = new bootstrap.Carousel(myCarousel, {
-            interval: 2500,
-            ride: 'carousel'
-        });
-    }
-</script>
 
 @* Code *@
 @code {

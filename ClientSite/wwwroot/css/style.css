@@ -4,6 +4,7 @@
     object-fit: cover;
 }
 
+
 /*==================About Section====================*/
 .about-preview {
     background: #ffffff; 
@@ -23,14 +24,20 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     .about-stat:nth-child(1) {
-        
+        background: linear-gradient(135deg, #006a4e, #009b6b); /* Dark green → lighter green */
+        color: #fff !important;
     }
+
     .about-stat:nth-child(2) {
-        
+        background: linear-gradient(135deg, #007a55, #00b376); /* Slightly brighter green gradient */
+        color: #fff !important;
     }
+
     .about-stat:nth-child(3) {
-        
+        background: linear-gradient(135deg, #c8102e, #ff4d4d); /* Red accents for Bangladesh flag */
+        color: #fff !important;
     }
+
 .play-btn {
     width: 70px;
     height: 70px;
@@ -62,16 +69,13 @@
     .about-preview h2 {
         font-size: 2rem;
     }
-
     .about-preview p {
         font-size: 1rem;
     }
-
     .about-stat {
         min-width: 100px;
         padding: 0.8rem 1rem;
     }
-
     .btn {
         font-size: 0.85rem;
         padding: 0.4rem 1rem;
@@ -187,13 +191,11 @@
     transition: transform 0.4s, box-shadow 0.4s;
     background-color: #fff;
 }
-
     .blog-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
-
-    .blog-card .overlay {
+    .blog-card .blogoverlay {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -208,31 +210,25 @@
         justify-content: flex-end;
         transition: opacity 0.3s ease-in-out;
     }
-
-    .blog-card:hover .overlay {
+    .blog-card:hover .blogoverlay {
         opacity: 1;
     }
-
 .card-title {
     font-weight: 600;
     font-size: 1.1rem;
 }
-
 .card-text {
     font-size: 0.9rem;
 }
-
 .btn-gradient {
     background: linear-gradient(135deg, #0d6efd, #6610f2);
     color: white;
     border: none;
     transition: opacity 0.3s;
 }
-
     .btn-gradient:hover {
         opacity: 0.9;
     }
-
 .card-body small {
     font-size: 0.8rem;
 }
@@ -243,7 +239,7 @@
     overflow: hidden;
     border-radius: 0.5rem;
 }
-    .team-card .overlay {
+    .team-card .teamoverlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -253,7 +249,7 @@
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
     }
-    .team-card:hover .overlay {
+    .team-card:hover .teamoverlay {
         opacity: 1;
     }
 .social-icons a {
@@ -263,21 +259,6 @@
     .social-icons a:hover {
         color: #0d6efd; /* Bootstrap primary */
     }
-
-/* ===================ChatBot section ==================*/
-/*.chat-widget .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.chat-widget .card-header {
-    cursor: pointer;
-}
-.chat-widget .card-body {
-    background-color: #f8f9fa;
-}
-.chat-widget .card-footer input {
-    border-radius: 5px;
-}*/
 
 /*====================Login section===================*/
 .login-page {
@@ -319,7 +300,6 @@
     text-align: center; /* Center text */
     text-decoration: none; /* Remove underline for links */
 }
-
     /* Hover effect for button */
     .btn:hover {
         color: #ffffff;
