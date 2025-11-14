@@ -19,7 +19,7 @@
     }
     else
     {
-        <div id="homeCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="false">
+        <div id="homeCarousel" class="container carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="false">
             <div class="carousel-inner rounded shadow">
                 @for (int i = 0; i < heroes.Count; i++)
                 {
@@ -87,7 +87,7 @@
                     <div class="col-md-6 text-center text-md-start">
                         @if (!string.IsNullOrWhiteSpace(aboutSection.Title))
                         {
-                            <h2>@aboutSection.Title</h2>
+                            <h2 class="fw-bold base-title-color">@aboutSection.Title</h2>
                         }
 
                         @if (!string.IsNullOrWhiteSpace(aboutSection.Description))
@@ -97,7 +97,7 @@
 
                         <!-- Stats / Small Cards -->
                         <div class="d-flex flex-wrap gap-3 mb-4">
-                            <div class="about-stat text-center">
+                            <div class="about-stat text-center hover-color">
                                 <h4 class="fw-bold mb-0">4+</h4>
                                 <small>Years of Experience</small>
                             </div>
