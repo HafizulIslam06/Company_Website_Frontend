@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JS
+
+<div class="chat-widget" style="font-family:Arial, sans-serif;">
+
+    <!-- Chat Icon (closed state) -->
+    @if (!isOpen)
+    {
+        <button class="btn btn-primary rounded-circle shadow d-flex justify-content-center align-items-center"
+                style="width:60px; height:60px; font-size:1.8rem; position:fixed; bottom:1rem; right:1rem; z-index:2000;"
+                @onclick="ToggleChat">
+            <i class="bi bi-chat-dots-fill"></i>
+        </button>
+    }
+
+    <!-- Chat Card (open state) -->
+    @if (isOpen)
+    {
+        <div class="card shadow"
+             style="width:300px; position:fixed; bottom:1rem; right:1rem; z-index:2000;">
+            <!-- Header -->
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-person-lines-fill me-2"></i>
+                    <span>Customer Service</span>
+                </div>
+                <button class="btn btn-sm btn-light" @onclick="ToggleChat">X</button>
+            </div>
+
+            <!-- Chat Body -->
+            <div class="card-body" style="height:300px; overflow-y:auto;" @ref="chatBody">
+                @foreach (var msg in messages)
+                {
+                    <div class="mb-2 d-flex @(msg.User=="You" ? "justify-content-end" : "justify-content-start")">
+                        <div class="p-2 rounded @(msg.User=="You" ? "bg-primary text-white" : "bg-light text-dark")" style="max-width:80%;">
+                            <strong>@msg.User:</strong> @msg.Text
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Input Footer -->
+            <div class="card-footer d-flex">
+                <input type="text" class="form-control me-2" @bind="userInput" @bind:event="oninput" @onkeypress="CheckEnter" placeholder="Type a message..." />
+                <button class="btn btn-primary" @onclick="SendMessage">Send</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    // State
+    private bool isOpen = false;
+    private string userInput = "";             // <-- THIS IS REQUIRED
+    private List<Message> messages = new();
+    private ElementReference chatBody;
+
+    // Toggle chat open/close
+    private void ToggleChat() => isOpen = !isOpen;
+
+    // Send message
+    private async void SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(userInput)) return;
+
+        messages.Add(new Message { User = "You", Text = userInput });
+        messages.Add(new Message { User = "Bot", Text = GenerateBotResponse(userInput) });
+        userInput = "";
+
+        await ScrollToBottom();
+    }
+
+    // Handle enter key
+    private void CheckEnter(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") SendMessage();
+    }
+
+    // Simple bot responses
+    private string GenerateBotResponse(string input)
+    {
+        input = input.ToLower();
+        if (input.Contains("hello") || input.Contains("hi")) return "Hello! How can I help you today?";
+        if (input.Contains("services")) return "We provide web, mobile, and desktop solutions.";
+        if (input.Contains("contact")) return "You can reach us at info@mywebsite.com or call +880 1234 567890.";
+        return "I’m sorry, I didn’t understand. Can you rephrase?";
+    }
+
+    // Scroll chat to bottom
+    private async Task ScrollToBottom()
+    {
+        await JS.InvokeVoidAsync("eval", $"document.querySelector('.chat-widget .card-body').scrollTop = document.querySelector('.chat-widget .card-body').scrollHeight");
+    }
+
+    // Message class
+    private class Message
+    {
+        public string User { get; set; }
+        public string Text { get; set; }
+    }
+}

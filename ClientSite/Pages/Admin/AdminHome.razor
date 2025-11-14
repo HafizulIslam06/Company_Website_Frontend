@@ -1,0 +1,184 @@
+﻿@page "/admin/home"
+@layout AdminLayout
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using ClientSite.Models
+@using System.ComponentModel.DataAnnotations
+@using ClientSite.PageBases
+@inherits ProtectedAdminPage
+
+<div class="container">
+    <h3>Home Page</h3>
+    <button class="btn btn-primary mb-3" @onclick="ShowAddForm">Add New Image</button>
+</div>
+
+<!-- Modal -->
+<div class="modal @(showForm ? "d-block" : "d-none")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@((isEditMode ? "Edit Hero" : "Add New Hero"))</h5>
+                <button type="button" class="btn-close" @onclick="CancelForm"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="currentHero" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label>Title</label>
+                        <InputText class="form-control" @bind-Value="currentHero.Title" />
+                        <ValidationMessage For="@(() => currentHero.Title)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Short Description</label>
+                        <InputTextArea class="form-control" @bind-Value="currentHero.ShortDescription" />
+                        <ValidationMessage For="@(() => currentHero.ShortDescription)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Image URL</label>
+                        <InputText class="form-control" @bind-Value="currentHero.ImageUrl" />
+                        <ValidationMessage For="@(() => currentHero.ImageUrl)" />
+                        @if (!string.IsNullOrEmpty(currentHero.ImageUrl))
+                        {
+                            <img src="@currentHero.ImageUrl" alt="Hero" width="100" class="mt-2 rounded shadow" />
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success me-2">Save</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CancelForm">Cancel</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hero Table -->
+@if (heroes == null)
+{
+    <p>Loading...</p>
+}
+else if (!heroes.Any())
+{
+    <p>No hero entries found.</p>
+}
+else
+{
+    <table class="container table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Short Description</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hero in heroes)
+            {
+                <tr>
+                    <td>@hero.Title</td>
+                    <td>@hero.ShortDescription</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(hero.ImageUrl))
+                        {
+                            <img src="@hero.ImageUrl" alt="Hero" width="100" />
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-2" @onclick="() => EditHero(hero)">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteHero(hero.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private List<HeroSection> heroes;
+    private HeroSection currentHero = new HeroSection();
+    private bool showForm = false;
+    private bool isEditMode = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadHeroes();
+    }
+
+    private async Task LoadHeroes()
+    {
+        try
+        {
+            heroes = await Http.GetFromJsonAsync<List<HeroSection>>("api/HeroSection");
+        }
+        catch
+        {
+            heroes = new List<HeroSection>();
+        }
+    }
+
+    private void ShowAddForm()
+    {
+        currentHero = new HeroSection();
+        showForm = true;
+        isEditMode = false;
+    }
+
+    private void CancelForm()
+    {
+        showForm = false;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            HttpResponseMessage response = isEditMode
+                ? await Http.PutAsJsonAsync($"api/HeroSection/{currentHero.Id}", currentHero)
+                : await Http.PostAsJsonAsync("api/HeroSection", currentHero);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                await JSRuntime.InvokeVoidAsync("alert", $"API Error: {error}");
+            }
+            else
+            {
+                showForm = false;
+                await LoadHeroes();
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Exception: {ex.Message}");
+        }
+    }
+
+    private void EditHero(HeroSection hero)
+    {
+        currentHero = new HeroSection
+        {
+            Id = hero.Id,
+            Title = hero.Title,
+            ShortDescription = hero.ShortDescription,
+            ImageUrl = hero.ImageUrl
+        };
+        showForm = true;
+        isEditMode = true;
+    }
+
+    private async Task DeleteHero(int id)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this item?"))
+        {
+            await Http.DeleteAsync($"api/HeroSection/{id}");
+            await LoadHeroes();
+        }
+    }
+}

@@ -1,0 +1,91 @@
+﻿@page "/admin/about"
+@using ClientSite.Models
+@using ClientSite.Services
+@inject AboutService AboutService
+@inject IJSRuntime JS
+@layout AdminLayout
+@using ClientSite.PageBases
+@inherits ProtectedAdminPage
+
+<h3>Manage About Section</h3>
+
+@if (currentSection == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="currentSection" OnValidSubmit="SaveSection">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <InputText class="form-control" @bind-Value="currentSection.Title" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <InputTextArea class="form-control" @bind-Value="currentSection.Description" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Image URL</label>
+            <InputText class="form-control" @bind-Value="currentSection.ImageUrl" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Video URL</label>
+            <InputText class="form-control" @bind-Value="currentSection.VideoUrl" />
+        </div>
+
+        <button type="submit" class="btn btn-success me-2">Save</button>
+        <button type="button" class="btn btn-danger" @onclick="DeleteSection">Delete</button>
+    </EditForm>
+}
+
+@code {
+    private AboutSection? currentSection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSection();
+    }
+
+    private async Task LoadSection()
+    {
+        var sections = await AboutService.GetAboutSectionsAsync();
+        // Take the first section or create a new one if none exists
+        currentSection = sections.FirstOrDefault() ?? new AboutSection();
+    }
+
+    private async Task SaveSection()
+    {
+        if (currentSection == null) return;
+
+        if (currentSection.Id == 0)
+        {
+            await AboutService.AddAboutSectionAsync(currentSection);
+        }
+        else
+        {
+            await AboutService.UpdateAboutSectionAsync(currentSection.Id, currentSection);
+        }
+
+        await LoadSection();
+        await JS.InvokeVoidAsync("alert", "About section saved successfully!");
+    }
+
+    private async Task DeleteSection()
+    {
+        if (currentSection == null || currentSection.Id == 0) return;
+
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete this section?");
+        if (confirmed)
+        {
+            await AboutService.DeleteAboutSectionAsync(currentSection.Id);
+            currentSection = new AboutSection(); // Reset form
+            await JS.InvokeVoidAsync("alert", "About section deleted!");
+        }
+    }
+}

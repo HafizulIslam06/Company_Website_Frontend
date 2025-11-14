@@ -1,0 +1,191 @@
+﻿@page "/"
+@using ClientSite.Models
+@using ClientSite.Pages.Components
+@using ClientSite.Services
+@inject HeroService HeroService
+@inject ClientSite.Services.AboutService AboutService
+@inject IJSRuntime JS
+
+
+<div class="home-page">
+    <!-- Hero Image Carousel -->
+    @if (heroes == null)
+    {
+        <p>Loading...</p>
+    }
+    else if (!heroes.Any())
+    {
+        <p>No hero data found.</p>
+    }
+    else
+    {
+        <div id="homeCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="false">
+            <div class="carousel-inner rounded shadow">
+                @for (int i = 0; i < heroes.Count; i++)
+                {
+                    var hero = heroes[i];
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@hero.ImageUrl" class="d-block w-100" alt="@hero.Title">
+                        @if (!string.IsNullOrWhiteSpace(hero.Title) || !string.IsNullOrWhiteSpace(hero.ShortDescription))
+                        {
+                            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 text-center">
+                                @if (!string.IsNullOrWhiteSpace(hero.Title))
+                                {
+                                    <h2 class="fw-bold bg-dark bg-opacity-50 p-3 rounded">@hero.Title</h2>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(hero.ShortDescription))
+                                {
+                                    <p class="bg-dark bg-opacity-50 p-2 rounded">@hero.ShortDescription</p>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                }
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    }
+
+
+    <!-- About Section -->
+    <section class="about-preview py-5 position-relative bg-light">
+        @if (aboutSection == null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Left: Image / Video -->
+                    <div class="col-md-6 mb-5 mb-md-0">
+                        <div class="video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
+                            @if (!string.IsNullOrEmpty(aboutSection.ImageUrl))
+                            {
+                                <img src="@aboutSection.ImageUrl" alt="@aboutSection.Title" class="img-fluid w-100" />
+                            }
+
+                            @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
+                            {
+                                <button type="button" class="play-btn position-absolute top-50 start-50 translate-middle rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#aboutVideoModal">
+                                    <i class="bi bi-play-fill fs-2"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Right: Content -->
+                    <div class="col-md-6 text-center text-md-start">
+                        @if (!string.IsNullOrWhiteSpace(aboutSection.Title))
+                        {
+                            <h2>@aboutSection.Title</h2>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(aboutSection.Description))
+                        {
+                            <p class="text-muted">@aboutSection.Description</p>
+                        }
+
+                        <!-- Stats / Small Cards -->
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <div class="about-stat text-center">
+                                <h4 class="fw-bold mb-0">4+</h4>
+                                <small>Years of Experience</small>
+                            </div>
+                            <div class="about-stat text-center">
+                                <h4 class="fw-bold mb-0">100+</h4>
+                                <small>Projects Completed</small>
+                            </div>
+                            <div class="about-stat text-center">
+                                <h4 class="fw-bold mb-0">50+</h4>
+                                <small>Happy Clients</small>
+                            </div>
+                        </div>
+
+                        <a href="/about" class="btn btn-lg">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Modal -->
+            @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
+            {
+                <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 rounded-4 overflow-hidden">
+                            <div class="ratio ratio-16x9">
+                                <iframe src="@aboutSection.VideoUrl"
+                                        title="@aboutSection.Title"
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </section>
+
+    <div>
+        <Services />
+    </div>
+    
+
+    <div class="bg-light">
+        <Products />
+    </div>
+   
+
+    <div>
+        <WhyChooseUs />
+    </div>
+   
+    <div class="bg-light">
+        <Blog />
+    </div>
+   
+
+    <div>
+        <TeamMembers />
+    </div>   
+</div>
+
+@* JS *@
+<script>
+    var myCarousel = document.querySelector('#homeCarousel');
+    if (myCarousel) {
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 2500,
+            ride: 'carousel'
+        });
+    }
+</script>
+
+@* Code *@
+@code {
+    private List<HeroSection> heroes;
+    private AboutSection aboutSection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Start all tasks
+        var heroTask = HeroService.GetHeroesAsync();
+        var aboutTask = AboutService.GetAboutSectionsAsync();
+
+        // Wait for all tasks in parallel
+        await Task.WhenAll(heroTask, aboutTask);
+
+        // Assign results
+        heroes = heroTask.Result;
+        aboutSection = aboutTask.Result.FirstOrDefault();
+    }
+}

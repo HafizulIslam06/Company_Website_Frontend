@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<div class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <header class="sticky-top">
+        <NavMenu />
+    </header>
+
+
+    <!-- Main -->
+    <main class="my-4">
+        @Body
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3 mt-auto">
+        <Footer/>
+    </footer>
+</div>
+
+<!-- Put ChatWidget outside main layout containers -->
+@* <ChatWidget /> *@

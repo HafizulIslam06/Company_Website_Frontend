@@ -1,0 +1,85 @@
+﻿@page "/team"
+@using ClientSite.Models
+@using ClientSite.Services
+@inject TeamMemberService TeamMemberService
+
+<section id="team" class="py-5">
+    <div class="container">
+        <h2 class="text-center">Meet Our Team</h2>
+
+        @if (teamMembers == null)
+        {
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
+        else if (!teamMembers.Any())
+        {
+            <p class="text-center">No team members found.</p>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var member in teamMembers)
+                {
+                    <div class="col-md-4">
+                        <div class="team-card position-relative overflow-hidden rounded shadow-sm">
+                            <img src="@(member.PhotoBase64 ?? "Assets/default-avatar.png")"
+                                 class="img-fluid w-100"
+                                 style="height:300px; object-fit:cover;"
+                                 alt="@member.Name" />
+
+                            <!-- Name & Role -->
+                            <div class="position-absolute bottom-0 w-100 text-center bg-dark bg-opacity-50 py-2 text-white">
+                                <h5 class="mb-0">@member.Name</h5>
+                                <small>@member.Role</small>
+                            </div>
+
+                            <!-- Social Icons on hover -->
+                            <div class="overlay d-flex justify-content-center align-items-center">
+                                <div class="social-icons text-center">
+                                    @if (!string.IsNullOrEmpty(member.FacebookUrl))
+                                    {
+                                        <a href="@member.FacebookUrl" target="_blank" class="text-white me-2 fs-5">
+                                            <i class="bi bi-facebook"></i>
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(member.InstagramUrl))
+                                    {
+                                        <a href="@member.InstagramUrl" target="_blank" class="text-white me-2 fs-5">
+                                            <i class="bi bi-instagram"></i>
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(member.LinkedInUrl))
+                                    {
+                                        <a href="@member.LinkedInUrl" target="_blank" class="text-white fs-5">
+                                            <i class="bi bi-linkedin"></i>
+                                        </a>
+                                    }
+                                    @if (!string.IsNullOrEmpty(member.GitHubUrl))
+                                    {
+                                        <a href="@member.GitHubUrl" target="_blank" class="text-white ms-2 fs-5">
+                                            <i class="bi bi-github"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private List<TeamMember>? teamMembers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch from API via service
+        teamMembers = await TeamMemberService.GetAllAsync();
+    }
+}

@@ -1,0 +1,40 @@
+﻿@page "/admin/dashboard"
+@layout AdminLayout
+@using ClientSite.PageBases
+@inherits ProtectedAdminPage
+@using ClientSite.Models
+@using ClientSite.Services
+@inject AuthService AuthService
+@inject NavigationManager Nav
+
+<div>
+    @if (currentUser == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <h3>Welcome, <b>@currentUser.Username</b>!</h3>
+
+        @if (currentUser.Role == "Admin")
+        {
+            <AdminUserManager />  <!-- Admin CRUD options -->
+        }
+        else
+        {
+            <EditOwnProfile Username="@currentUser.Username" /> <!-- Non-admin edit profile -->
+        }
+    }
+</div>
+
+@code {
+    private AuthResponse? currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUser = await AuthService.GetCurrentUserAsync();
+
+        if (currentUser == null)
+            Nav.NavigateTo("/login", true);
+    }
+}

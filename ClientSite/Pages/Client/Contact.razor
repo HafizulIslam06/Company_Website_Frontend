@@ -1,0 +1,117 @@
+﻿@page "/contact"
+@using System.ComponentModel.DataAnnotations
+
+<section class="py-5">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold display-5 mb-3" style="color:#343a40;">Get in Touch</h2>
+            <p class="text-muted mx-auto" style="max-width:700px; font-size:1.1rem;">
+                We'd love to hear from you! Whether you have a question, need a quote, or just want to say hello — our team is ready to help.
+            </p>
+        </div>
+
+        <div class="row g-5">
+            <!-- Contact Info -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-lg p-4 h-100" style="border-radius:15px; background-color:#ffffff;">
+                    <h5 class="fw-bold mb-4 text-primary">Contact Information</h5>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-geo-alt-fill fs-3 text-primary me-3"></i>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Our Office</h6>
+                            <p class="text-muted mb-0">123 Tech Street, Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-telephone-fill fs-3 text-success me-3"></i>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Call Us</h6>
+                            <p class="text-muted mb-0">+880 123 456 789</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-envelope-fill fs-3 text-danger me-3"></i>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Email</h6>
+                            <p class="text-muted mb-0">info@synthexit.com</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-4">
+                        <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-info me-3 fs-4"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-danger me-3 fs-4"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark fs-4"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-lg p-5 h-100" style="border-radius:15px; background: #ffffff;">
+                    <h5 class="fw-bold mb-4 text-primary">Send Us a Message</h5>
+                    <EditForm Model="@contactModel" OnValidSubmit="HandleSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger mb-3" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <InputText @bind-Value="contactModel.Name" class="form-control form-control-lg border-primary shadow-sm" placeholder="Your Name" />
+                            </div>
+                            <div class="col-md-6">
+                                <InputText @bind-Value="contactModel.Email" class="form-control form-control-lg border-success shadow-sm" placeholder="Your Email" />
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <InputText @bind-Value="contactModel.Subject" class="form-control form-control-lg border-warning shadow-sm" placeholder="Subject" />
+                        </div>
+
+                        <div class="mt-3">
+                            <InputTextArea @bind-Value="contactModel.Message" class="form-control form-control-lg border-danger shadow-sm" placeholder="Your Message" Rows="5" />
+                        </div>
+
+                        <button type="submit" class="btn btn-gradient btn-lg mt-4 px-5" style="background: linear-gradient(to right, #007bff, #6610f2); color:white; border:none; border-radius:50px;">
+                            Send Message
+                        </button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Map -->
+        <div class="mt-5 rounded overflow-hidden shadow" style="height:400px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.662224197551!2d90.41251867458413!3d23.868767184521067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c4621a5d72cf%3A0x456bb1db0ec85b0c!2sDhaka!5e0!3m2!1sen!2sbd!4v1698935673562!5m2!1sen!2sbd"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+@code {
+    private ContactFormModel contactModel = new();
+
+    private void HandleSubmit()
+    {
+        Console.WriteLine($"Message from {contactModel.Name}: {contactModel.Message}");
+    }
+
+    public class ContactFormModel
+    {
+        [Required, StringLength(100)]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress]
+        public string? Email { get; set; }
+
+        [Required, StringLength(150)]
+        public string? Subject { get; set; }
+
+        [Required, StringLength(1000)]
+        public string? Message { get; set; }
+    }
+}

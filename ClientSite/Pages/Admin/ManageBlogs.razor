@@ -1,0 +1,147 @@
+﻿@page "/admin/blogs"
+@layout AdminLayout
+@using ClientSite.Models
+@using ClientSite.Services
+@inject BlogService BlogService
+@inject IJSRuntime JSRuntime
+@using ClientSite.PageBases
+@inherits ProtectedAdminPage
+
+<h3 class="mb-4">Admin Blog Management</h3>
+
+<button class="btn btn-success mb-3" @onclick="ShowAddForm">Add New Blog</button>
+
+@if (loading)
+{
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+else
+{
+    @if (showForm)
+    {
+        <EditForm Model="currentBlog" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <InputText class="form-control" @bind-Value="currentBlog.Title" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Short Description</label>
+                <InputText class="form-control" @bind-Value="currentBlog.ShortDescription" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Long Description</label>
+                <InputTextArea class="form-control" rows="5" @bind-Value="currentBlog.LongDescription" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Image URL</label>
+                <InputText class="form-control" @bind-Value="currentBlog.ImageUrl" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Video URL</label>
+                <InputText class="form-control" @bind-Value="currentBlog.VideoUrl" />
+            </div>
+
+            <button type="submit" class="btn btn-primary me-2">@((editing ? "Update" : "Add")) Blog</button>
+            <button type="button" class="btn btn-secondary" @onclick="CancelForm">Cancel</button>
+        </EditForm>
+        <hr />
+    }
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Short Description</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blog in blogs)
+            {
+                <tr>
+                    <td>@blog.Title</td>
+                    <td>@blog.ShortDescription</td>
+                    <td>@blog.CreatedAt.ToLocalTime():yyyy-MM-dd HH:mm</td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-2" @onclick="() => EditBlog(blog)">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteBlog(blog.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<BlogPost> blogs = new();
+    private BlogPost currentBlog = new();
+    private bool showForm = false;
+    private bool editing = false;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync() => await LoadBlogs();
+
+    private async Task LoadBlogs()
+    {
+        loading = true;
+        blogs = await BlogService.GetAllBlogsAsync();
+        loading = false;
+    }
+
+    private void ShowAddForm()
+    {
+        currentBlog = new BlogPost();
+        editing = false;
+        showForm = true;
+    }
+
+    private void CancelForm() => showForm = false;
+
+    private async Task HandleValidSubmit()
+    {
+        if (editing)
+        {
+            var success = await BlogService.UpdateBlogAsync(currentBlog.Id, currentBlog);
+            if (success) await LoadBlogs();
+        }
+        else
+        {
+            var blog = await BlogService.CreateBlogAsync(currentBlog);
+            if (blog != null) await LoadBlogs();
+        }
+
+        showForm = false;
+    }
+
+    private void EditBlog(BlogPost blog)
+    {
+        currentBlog = new BlogPost
+        {
+            Id = blog.Id,
+            Title = blog.Title,
+            ShortDescription = blog.ShortDescription,
+            LongDescription = blog.LongDescription,
+            ImageUrl = blog.ImageUrl,
+            VideoUrl = blog.VideoUrl,
+            CreatedAt = blog.CreatedAt
+        };
+        editing = true;
+        showForm = true;
+    }
+
+    private async Task DeleteBlog(int id)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this blog?");
+        if (confirmed)
+        {
+            var success = await BlogService.DeleteBlogAsync(id);
+            if (success) await LoadBlogs();
+        }
+    }
+}

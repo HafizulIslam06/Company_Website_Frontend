@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using ClientSite.Services
+@inject AuthService AuthService
+@inject NavigationManager Nav
+@layout LoginLayout
+
+<div class="login-page d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card login-card shadow-lg border-0 p-4" style="width: 100%; max-width: 400px;">
+        <!-- Logo / Company Name -->
+        <div class="text-center mb-4">
+            <a href="/" class="d-flex align-items-center justify-content-center fw-bold fs-3 mb-3" style="text-decoration: none;">
+                <span style="color: #006a4e;">Bits</span> <!-- Dark green like the flag -->
+                <span style="color: #f42a41;">Bangla</span> <!-- Red like the flag -->
+            </a>
+
+            <div class="login-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px;">
+                <i class="bi bi-person-lock fs-3"></i>
+            </div>
+
+            <h3 class="fw-bold text-dark">Welcome Back</h3>
+            <p class="text-muted">Please sign in to your account</p>
+        </div>
+
+        <!-- Login Form -->
+        <div>
+            <div class="form-floating mb-3">
+                <input @bind="Username" id="username" class="form-control" placeholder="Username" />
+                <label for="username">Username</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" @bind="Password" id="password" class="form-control" placeholder="Password" />
+                <label for="password">Password</label>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 fw-semibold" @onclick="LoginAsync">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Login
+            </button>
+
+            @if (!string.IsNullOrEmpty(Error))
+            {
+                <p class="text-danger text-center mt-3">@Error</p>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Username = "";
+    private string Password = "";
+    private string Error = "";
+
+    private async Task LoginAsync()
+    {
+        var success = await AuthService.LoginAsync(new() { Username = Username, Password = Password });
+        if (success)
+            Nav.NavigateTo("/admin/dashboard", true);
+        else
+            Error = "Invalid username or password";
+    }
+}

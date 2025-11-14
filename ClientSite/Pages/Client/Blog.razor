@@ -1,0 +1,95 @@
+﻿@page "/blog"
+@using ClientSite.Models
+@inject BlogService BlogService
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1>Our Blog</h1>
+            <p class="text-muted w-75 mx-auto">
+                Explore our latest articles, insights, and tips about technology, business, and digital innovation.
+            </p>
+        </div>
+
+        @if (posts == null)
+        {
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        }
+        else if (!posts.Any())
+        {
+            <p class="text-center">No posts found.</p>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var post in posts)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm blog-card overflow-hidden">
+                            <div class="position-relative">
+                                <img src="@(post.ImageUrl ?? "https://via.placeholder.com/400x200")"
+                                     class="card-img-top" alt="@post.Title" style="object-fit:cover; height:220px; width:100%;" />
+                                <div class="overlay d-flex flex-column justify-content-end p-3">
+                                    <h5 class="card-title text-white">@post.Title</h5>
+                                    <p class="card-text text-white mb-0">@post.ShortDescription ?? ""</p>
+                                </div>
+                            </div>
+                            <div class="card-body text-center">
+                                <small class="text-muted d-block mb-2">
+                                    <i class="bi bi-calendar-event"></i> @post.CreatedAt.ToString("MMM dd, yyyy")
+                                </small>
+                                <button class="btn btn-gradient btn-sm mt-2 px-4" @onclick="() => ShowPost(post)">
+                                    Read More <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (selectedPost != null)
+{
+    <div class="modal fade show d-block" style="background-color: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">@selectedPost.Title</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="@(selectedPost.ImageUrl ?? "https://via.placeholder.com/600x300")"
+                         class="img-fluid rounded mb-3" style="object-fit:cover; width:100%; height:300px;" />
+                    <p class="text-muted">@selectedPost.LongDescription ?? ""</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-secondary" @onclick="CloseModal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<BlogPost>? posts;
+    private BlogPost? selectedPost;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            posts = await BlogService.GetAllBlogsAsync();
+        }
+        catch
+        {
+            posts = new List<BlogPost>();
+        }
+    }
+
+    private void ShowPost(BlogPost post) => selectedPost = post;
+    private void CloseModal() => selectedPost = null;
+}

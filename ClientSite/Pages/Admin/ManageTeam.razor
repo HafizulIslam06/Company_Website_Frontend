@@ -1,0 +1,233 @@
+﻿@page "/admin/team"
+@layout AdminLayout
+@inject TeamMemberService TeamService
+@inject IJSRuntime JS
+@using ClientSite.Models
+
+<div class="container">
+    <h3 class="mb-3">👥 Manage Team Members</h3>
+    <button class="btn btn-primary mb-3" @onclick="ShowAddForm">Add New Member</button>
+</div>
+
+@if (teamMembers == null)
+{
+    <p>Loading...</p>
+}
+else if (!teamMembers.Any())
+{
+    <p>No team members found.</p>
+}
+else
+{
+    <table class="table table-striped container">
+        <thead class="table-dark">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Bio</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var m in teamMembers)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(m.PhotoBase64))
+                        {
+                            <img src="@m.PhotoBase64" style="width:60px;height:60px;border-radius:50%;object-fit:cover;" />
+                        }
+                        else
+                        {
+
+                            <span>No Photo</span>
+                        }
+                    </td>
+
+                    <td>@m.Name</td>
+                    <td>@m.Role</td>
+                    <td>@m.Bio</td>
+
+                    <td>
+                        <button class="btn btn-warning btn-sm" @onclick="() => EditMember(m)">Edit</button>
+                        <button class="btn btn-danger btn-sm ms-2" @onclick="() => DeleteMember(m.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (showForm)
+{
+    <div class="modal fade show d-block" style="background:rgba(0,0,0,0.5)">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>@(isEdit ? "Edit Member" : "Add Member")</h5>
+                    <button class="btn-close" @onclick="CloseForm"></button>
+                </div>
+
+                <div class="modal-body">
+                    <EditForm Model="currentMember" OnValidSubmit="HandleSubmit">
+                        <DataAnnotationsValidator />
+
+                        <div class="mb-3">
+                            <label>Name</label>
+                            <InputText class="form-control" @bind-Value="currentMember.Name" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Role</label>
+                            <InputText class="form-control" @bind-Value="currentMember.Role" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Bio</label>
+                            <InputTextArea class="form-control" @bind-Value="currentMember.Bio" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Photo</label>
+                            <InputFile OnChange="OnFileSelected" accept="image/*" />
+                            @if (!string.IsNullOrEmpty(currentPhotoPreview))
+                            {
+                                <img src="@currentPhotoPreview" style="width:100px;height:100px;border-radius:50%;margin-top:10px;object-fit:cover;" />
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Facebook URL</label>
+                            <InputText class="form-control" @bind-Value="currentMember.FacebookUrl" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Instagram URL</label>
+                            <InputText class="form-control" @bind-Value="currentMember.InstagramUrl" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>LinkedIn URL</label>
+                            <InputText class="form-control" @bind-Value="currentMember.LinkedInUrl" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>GitHub URL</label>
+                            <InputText class="form-control" @bind-Value="currentMember.GitHubUrl" />
+                        </div>
+
+                        <button class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-secondary ms-2" @onclick="CloseForm">Cancel</button>
+                    </EditForm>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<TeamMember>? teamMembers;
+    private TeamMember currentMember = new();
+    private bool showForm = false;
+    private bool isEdit = false;
+
+    private string? currentPhotoPreview;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTeamMembers();
+    }
+
+    private async Task LoadTeamMembers()
+    {
+        teamMembers = await TeamService.GetAllAsync();
+    }
+
+    private void ShowAddForm()
+    {
+        currentMember = new TeamMember();
+        currentPhotoPreview = null;
+        isEdit = false;
+        showForm = true;
+    }
+
+    private void EditMember(TeamMember member)
+    {
+        currentMember = new TeamMember
+        {
+            Id = member.Id,
+            Name = member.Name,
+            Role = member.Role,
+            Bio = member.Bio,
+            Photo = member.Photo,
+            FacebookUrl = member.FacebookUrl,
+            InstagramUrl = member.InstagramUrl,
+            LinkedInUrl = member.LinkedInUrl,
+            GitHubUrl = member.GitHubUrl
+        };
+
+        currentPhotoPreview = member.PhotoBase64;
+        isEdit = true;
+        showForm = true;
+    }
+
+    private async Task HandleSubmit()
+    {
+        Stream? stream = null;
+        string? fileName = null;
+
+        if (currentPhotoPreview != null && currentPhotoPreview.StartsWith("data:"))
+        {
+            var base64 = currentPhotoPreview[(currentPhotoPreview.IndexOf(',') + 1)..];
+            var bytes = Convert.FromBase64String(base64);
+            stream = new MemoryStream(bytes);
+            fileName = $"{currentMember.Name}.jpg";
+        }
+
+        bool ok = isEdit
+            ? await TeamService.UpdateAsync(currentMember, stream, fileName)
+            : await TeamService.CreateAsync(currentMember, stream, fileName);
+
+        if (ok)
+        {
+            await LoadTeamMembers();
+            CloseForm();
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Failed to save!");
+        }
+    }
+
+    private async Task DeleteMember(int id)
+    {
+        var c = await JS.InvokeAsync<bool>("confirm", "Delete?");
+        if (!c) return;
+
+        if (await TeamService.DeleteAsync(id))
+            await LoadTeamMembers();
+        else
+            await JS.InvokeVoidAsync("alert", "Delete failed!");
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024);
+
+        var bytes = new byte[file.Size];
+        await stream.ReadAsync(bytes);
+
+        currentPhotoPreview = $"data:{file.ContentType};base64,{Convert.ToBase64String(bytes)}";
+    }
+
+    private void CloseForm()
+    {
+        showForm = false;
+        currentPhotoPreview = null;
+    }
+}
