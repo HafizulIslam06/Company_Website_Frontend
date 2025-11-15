@@ -81,19 +81,19 @@
             <!-- Stats -->
             <div class="row text-center mb-5">
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-primary text-white rounded-4 shadow">
+                    <div class="about-stat shadow">
                         <h3 class="fw-bold">4+</h3>
                         <p>Years of Experience</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-success text-white rounded-4 shadow">
+                    <div class="about-stat shadow">
                         <h3 class="fw-bold">100+</h3>
                         <p>Projects Completed</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-warning text-white rounded-4 shadow">
+                    <div class="about-stat shadow" style="background: linear-gradient(135deg, #c8102e, #ff4d4d);">
                         <h3 class="fw-bold">50+</h3>
                         <p>Happy Clients</p>
                     </div>
@@ -110,18 +110,24 @@
 <Products />
 
 <!-- Contact Section -->
-<div class="container contact-cta py-5 text-center rounded-4 shadow-lg position-relative overflow-hidden mt-5" style="background: linear-gradient(120deg, #6610f2, #007bff); color:white;">
+<div class="container contact-cta py-5 text-center rounded-4 shadow-lg mt-5 position-relative"
+     style="background: linear-gradient(135deg, #4e73df, #6c63ff); overflow:hidden;">
+
     <div class="position-absolute top-0 start-0 w-100 h-100"
-            style="background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);">
+         style="background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);">
     </div>
+
     <div class="position-relative">
-        <h2 class="fw-bold mb-3">Let’s Build the Future Together 🚀</h2>
+        <h2 class="fw-bold mb-3 text-white">Let’s Build the Future Together 🚀</h2>
         <p class="lead mb-4 text-light">Have an idea or project in mind? Let’s make it happen with innovation, speed, and impact.</p>
-        <a href="/contact" class="btn rounded-pill fw-bold px-5">
+
+        <a href="/contact" class="btn rounded-pill fw-bold px-5"
+           style="background:#fff; color:#4e73df;">
             <i class="bi bi-chat-dots me-2"></i> Contact Us
         </a>
     </div>
 </div>
+
 
 @if (!string.IsNullOrEmpty(aboutSection?.VideoUrl))
 {
