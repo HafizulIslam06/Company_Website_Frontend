@@ -12,6 +12,7 @@ builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri("https://localhost:7099/") // your backend base URL
 });
+
 //Registration Services
 builder.Services.AddScoped<HeroService>();
 builder.Services.AddScoped<BlogService>();
@@ -20,8 +21,5 @@ builder.Services.AddScoped<TeamMemberService>();
 builder.Services.AddScoped<ITokenStorageService, LocalTokenStorageService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
-
-
-builder.RootComponents.Add<HeadOutlet>("head::after");
 
 await builder.Build().RunAsync();
