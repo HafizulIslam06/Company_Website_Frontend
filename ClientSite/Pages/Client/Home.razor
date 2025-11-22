@@ -118,14 +118,15 @@
             <!-- Video Modal -->
             @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
             {
-                var embedUrl = aboutSection.VideoUrl.Replace("watch?v=", "embed/");
+                var embedUrl = GetYouTubeEmbedUrl(aboutSection.VideoUrl);
                 <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content border-0 rounded-4 overflow-hidden">
                             <div class="ratio ratio-16x9">
                                 <iframe src="@embedUrl"
                                         title="@aboutSection.Title"
-                                        allow="autoplay; encrypted-media"
+                                        loading="lazy"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen></iframe>
                             </div>
                         </div>
@@ -137,23 +138,23 @@
 
     <div>
         <Services />
-    </div>   
+    </div>
 
     <div>
         <Products />
-    </div>   
+    </div>
 
     <div>
         <WhyChooseUs />
     </div>
-   
+
     <div class="bg-light">
         <Blog />
-    </div>  
+    </div>
 
     <div>
         <TeamMembers />
-    </div>   
+    </div>
 </div>
 
 @* Code *@
@@ -173,5 +174,42 @@
         // Assign results
         heroes = heroTask.Result;
         aboutSection = aboutTask.Result.FirstOrDefault();
+    }
+
+    private string GetYouTubeEmbedUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return string.Empty;
+
+        url = url.Trim();
+
+        // Ensure scheme
+        if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+            !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            url = "https://" + url;
+        }
+
+        // If it's already an embed url, return as-is (ensure https)
+        if (url.Contains("/embed/"))
+            return url;
+
+        // Short youtu.be links
+        var m = System.Text.RegularExpressions.Regex.Match(url, @"youtu\.be\/([^\?&\/]+)");
+        if (m.Success)
+            return $"https://www.youtube.com/embed/{m.Groups[1].Value}";
+
+        // Standard watch?v=... links (or query param v=)
+        m = System.Text.RegularExpressions.Regex.Match(url, @"[?&]v=([^&]+)");
+        if (m.Success)
+            return $"https://www.youtube.com/embed/{m.Groups[1].Value}";
+
+        // Last resort: try to extract last path segment as id
+        m = System.Text.RegularExpressions.Regex.Match(url, @"youtube\.com\/.*\/([^\?&\/]+)$");
+        if (m.Success)
+            return $"https://www.youtube.com/embed/{m.Groups[1].Value}";
+
+        // Fallback - return original (may fail to embed)
+        return url;
     }
 }

@@ -18,11 +18,11 @@
 
         @if (currentUser.Role == "Admin")
         {
-            <AdminUserManager />  <!-- Admin CRUD options -->
+            <AdminUserManager /> 
         }
         else
         {
-            <EditOwnProfile Username="@currentUser.Username" /> <!-- Non-admin edit profile -->
+            <EditOwnProfile Username="@currentUser.Username" />
         }
     }
 </div>
