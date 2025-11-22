@@ -4,28 +4,8 @@
 @inject AboutService AboutService
 @using ClientSite.Pages.Components
 
-@code {
-    private AboutSection? aboutSection;
-    private bool isLoading = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            // Assuming only one section
-            var sections = await AboutService.GetAboutSectionsAsync();
-            aboutSection = sections.FirstOrDefault();
-        }
-        finally
-        {
-            isLoading = false;
-        }
-    }
-}
-
 <section class="about-section py-5">
     <div class="container">
-        @* Dynamic Content *@
         @if (isLoading)
         {
             <p class="text-center text-primary">Loading...</p>
@@ -36,7 +16,6 @@
         }
         else
         {
-            <!-- Header -->
             <div class="text-center mb-5">
                 <h1 class="fw-bold base-title-color">
                     About <span class="base-title-color">Bits Bangla</span>
@@ -46,9 +25,7 @@
                 </p>
             </div>
 
-            <!-- Story with Video -->
             <div class="row align-items-center mb-5">
-                <!-- Video -->
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
                         @if (!string.IsNullOrEmpty(aboutSection.ImageUrl))
@@ -65,7 +42,6 @@
                     </div>
                 </div>
 
-                <!-- Story Text -->
                 <div class="col-lg-6">
                     <h3 class="fw-bold base-title-color mb-3">@aboutSection.Title</h3>
                     <p class="text-muted" style="font-size:1.1rem; line-height:1.7;">
@@ -78,7 +54,6 @@
                 </div>
             </div>
 
-            <!-- Stats -->
             <div class="row text-center mb-5">
                 <div class="col-md-4 mb-3">
                     <div class="about-stat shadow">
@@ -128,10 +103,8 @@
     </div>
 </div>
 
-
 @if (!string.IsNullOrEmpty(aboutSection?.VideoUrl))
 {
-    <!-- Video Modal -->
     <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 overflow-hidden">
@@ -144,4 +117,23 @@
             </div>
         </div>
     </div>
+}
+
+
+@code {
+    private AboutSection? aboutSection;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var sections = await AboutService.GetAboutSectionsAsync();
+            aboutSection = sections.FirstOrDefault();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

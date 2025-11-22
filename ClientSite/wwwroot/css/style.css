@@ -1,9 +1,37 @@
-﻿/* ====================Home section===================*/
+﻿/* ====================NavBar section===================*/
+.navLinkItem {
+    list-style: none;
+}
+.navLink {
+    text-decoration: none;
+    color: #334155;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s, transform 0.2s;
+}
+    .navLink::after {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        left: 0;
+        bottom: -4px;
+        background-color: #006a4e;
+        transition: width 0.3s;
+    }
+    .navLink:hover {
+        color: #006a4e;
+        transform: translateY(-2px);
+    }
+        .navLink:hover::after {
+            width: 100%;
+        }
+
+/* ====================Home section===================*/
 .carousel-item img {
     height: 45vh;
     object-fit: cover;
 }
-
 
 /*==================About Section====================*/
 .about-preview {
