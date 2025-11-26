@@ -4,28 +4,8 @@
 @inject AboutService AboutService
 @using ClientSite.Pages.Components
 
-@code {
-    private AboutSection? aboutSection;
-    private bool isLoading = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            // Assuming only one section
-            var sections = await AboutService.GetAboutSectionsAsync();
-            aboutSection = sections.FirstOrDefault();
-        }
-        finally
-        {
-            isLoading = false;
-        }
-    }
-}
-
 <section class="about-section py-5">
     <div class="container">
-        @* Dynamic Content *@
         @if (isLoading)
         {
             <p class="text-center text-primary">Loading...</p>
@@ -36,19 +16,16 @@
         }
         else
         {
-            <!-- Header -->
             <div class="text-center mb-5">
-                <h2 class="fw-bold display-4 text-primary">
-                    About <span class="text-gradient">Bits Bangla</span>
-                </h2>
-                <p class="lead text-muted w-75 mx-auto" style="font-size:1.2rem; line-height:1.8;">
+                <h1 class="fw-bold base-title-color">
+                    About <span class="base-title-color">Bits Bangla</span>
+                </h1>
+                <p class="text-muted w-75 mx-auto" style="font-size:1.2rem; line-height:1.8;">
                     @aboutSection.Description
                 </p>
             </div>
 
-            <!-- Story with Video -->
             <div class="row align-items-center mb-5">
-                <!-- Video -->
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
                         @if (!string.IsNullOrEmpty(aboutSection.ImageUrl))
@@ -65,39 +42,37 @@
                     </div>
                 </div>
 
-                <!-- Story Text -->
                 <div class="col-lg-6">
-                    <h3 class="fw-bold text-primary mb-3">@aboutSection.Title</h3>
+                    <h3 class="fw-bold base-title-color mb-3">@aboutSection.Title</h3>
                     <p class="text-muted" style="font-size:1.1rem; line-height:1.7;">
                         We are a Bangladeshi tech company crafting intelligent, scalable, and beautiful digital solutions.
                         Helping businesses go from ideas to impact.
                     </p>
-                    <a href="/contact" class="btn btn-primary rounded-pill mt-3 px-4 py-2">
+                    <a href="/contact" class="btn  mt-3 px-4 py-2">
                         <i class="bi bi-envelope-paper me-2"></i> Get in Touch
                     </a>
                 </div>
             </div>
 
-            <!-- Stats -->
             <div class="row text-center mb-5">
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-primary text-white rounded-4 shadow">
+                    <div class="about-stat shadow">
                         <h3 class="fw-bold">4+</h3>
                         <p>Years of Experience</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-success text-white rounded-4 shadow">
+                    <div class="about-stat shadow">
                         <h3 class="fw-bold">100+</h3>
                         <p>Projects Completed</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="p-4 bg-gradient-warning text-white rounded-4 shadow">
+                    <div class="about-stat shadow" style="background: linear-gradient(135deg, #c8102e, #ff4d4d);">
                         <h3 class="fw-bold">50+</h3>
                         <p>Happy Clients</p>
                     </div>
-                </div>
+                </div>                   
             </div>
         }             
     </div>
@@ -110,14 +85,19 @@
 <Products />
 
 <!-- Contact Section -->
-<div class="contact-cta py-5 text-center rounded-4 shadow-lg position-relative overflow-hidden mt-5" style="background: linear-gradient(120deg, #6610f2, #007bff); color:white;">
+<div class="container contact-cta py-5 text-center rounded-4 shadow-lg mt-5 position-relative"
+     style="background: linear-gradient(135deg, #4e73df, #6c63ff); overflow:hidden;">
+
     <div class="position-absolute top-0 start-0 w-100 h-100"
-            style="background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);">
+         style="background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);">
     </div>
+
     <div class="position-relative">
-        <h2 class="fw-bold mb-3">Let’s Build the Future Together 🚀</h2>
+        <h2 class="fw-bold mb-3 text-white">Let’s Build the Future Together 🚀</h2>
         <p class="lead mb-4 text-light">Have an idea or project in mind? Let’s make it happen with innovation, speed, and impact.</p>
-        <a href="/contact" class="btn btn-light btn-lg rounded-pill fw-bold px-5">
+
+        <a href="/contact" class="btn rounded-pill fw-bold px-5"
+           style="background:#fff; color:#4e73df;">
             <i class="bi bi-chat-dots me-2"></i> Contact Us
         </a>
     </div>
@@ -125,7 +105,6 @@
 
 @if (!string.IsNullOrEmpty(aboutSection?.VideoUrl))
 {
-    <!-- Video Modal -->
     <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 overflow-hidden">
@@ -141,45 +120,20 @@
 }
 
 
-<style>
-    .text-gradient {
-        background: linear-gradient(90deg, #007bff, #6610f2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+@code {
+    private AboutSection? aboutSection;
+    private bool isLoading = true;
 
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
-    }
-
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #198754, #0dcaf0);
-    }
-
-    .bg-gradient-warning {
-        background: linear-gradient(135deg, #ffc107, #fd7e14);
-    }
-
-    .video-wrapper {
-        transition: transform 0.3s ease;
-    }
-
-        .video-wrapper:hover {
-            transform: scale(1.03);
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var sections = await AboutService.GetAboutSectionsAsync();
+            aboutSection = sections.FirstOrDefault();
         }
-
-    .play-btn {
-        width: 75px;
-        height: 75px;
-        background: rgba(0, 123, 255, 0.8);
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.3s;
-    }
-
-        .play-btn:hover {
-            background: rgba(0, 123, 255, 1);
+        finally
+        {
+            isLoading = false;
         }
-</style>
+    }
+}

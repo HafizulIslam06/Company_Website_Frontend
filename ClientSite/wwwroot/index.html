@@ -7,6 +7,30 @@
     <title>Bits Bangla</title>
     <base href="/" />
 
+    <!-- Permissions shim to avoid "Illegal invocation" when code extracts navigator.permissions.query -->
+    <script>
+        (function () {
+            try {
+                if (navigator.permissions && typeof navigator.permissions.query === "function") {
+                    const origQuery = navigator.permissions.query;
+                    navigator.permissions.query = function () {
+                        return origQuery.apply(navigator.permissions, arguments);
+                    };
+                }
+                // Optional safe wrapper other scripts / interop can call:
+                window.safePermissionsQuery = function (descriptor) {
+                    if (!navigator.permissions || typeof navigator.permissions.query !== "function") {
+                        return Promise.reject(new Error("Permissions API not available"));
+                    }
+                    return navigator.permissions.query.call(navigator.permissions, descriptor);
+                };
+            } catch (e) {
+                // Do not break the page if something unexpected occurs
+                console.warn("Permissions shim initialization failed:", e);
+            }
+        })();
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 
