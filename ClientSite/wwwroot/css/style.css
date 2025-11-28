@@ -333,3 +333,45 @@
         background-color: #005740; /* Slightly darker blue on hover */
         transform: translateY(-2px); /* Slight lift effect */
     }
+
+/*Contact page*/
+.floating-contact-widget {
+    position: fixed;
+    right: 25px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+}
+
+.floating-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: white !important;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+    .floating-btn:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    .floating-btn.wa {
+        background-color: #25D366;
+    }
+
+    .floating-btn.calendly {
+        background-color: #0069ff;
+    }
+
+    .floating-btn.call {
+        background-color: #28a745;
+    }
