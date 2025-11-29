@@ -1,12 +1,12 @@
 ﻿@page "/contact"
 @using System.ComponentModel.DataAnnotations
 
-<section class="py-5">
+<section class="py-5" style="background-color: #f7faff;">
     <div class="container">
         <!-- Section Header -->
         <div class="text-center mb-5">
             <h2 class="fw-bold base-title-color display-5 mb-3">Get in Touch</h2>
-            <p class="text-muted mx-auto" style="max-width:700px; font-size:1.1rem;">
+            <p class="base-text mx-auto" style="max-width:700px; font-size:1.1rem;">
                 We'd love to hear from you! Whether you have a question, need a quote, or just want to say hello — our team is ready to help.
             </p>
         </div>
@@ -18,7 +18,7 @@
                     <h5 class="fw-bold mb-4 base-title-color">Contact Information</h5>
 
                     <div class="d-flex align-items-start mb-3">
-                        <i class="bi bi-geo-alt-fill fs-3 text-primary me-3"></i>
+                        <i class="bi bi-geo-alt-fill fs-3 text-primary me-3" style="color:var(--brand-cyan) !important;"></i>
                         <div>
                             <h6 class="fw-semibold mb-0">Our Office</h6>
                             <p class="text-muted mb-0">123 Tech Street, Dhaka, Bangladesh</p>
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="d-flex align-items-start mb-3">
-                        <i class="bi bi-telephone-fill fs-3 text-success me-3"></i>
+                        <i class="bi bi-telephone-fill fs-3 text-success me-3" style="color:#25D366 !important;"></i>
                         <div>
                             <h6 class="fw-semibold mb-0">Call Us</h6>
                             <p class="text-muted mb-0">+880 123 456 789</p>
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="d-flex align-items-start mb-3">
-                        <i class="bi bi-envelope-fill fs-3 text-danger me-3"></i>
+                        <i class="bi bi-envelope-fill fs-3 text-danger me-3" style="color:#d9534f !important;"></i>
                         <div>
                             <h6 class="fw-semibold mb-0">Email</h6>
                             <p class="text-muted mb-0">info@synthexit.com</p>
@@ -44,10 +44,10 @@
                     <hr class="my-4" style="opacity:0.15;">
 
                     <div class="d-flex mt-2 justify-content-center">
-                        <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-info me-3 fs-4"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-danger me-3 fs-4"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-dark fs-4"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-primary me-3 fs-4" style="color:#4267B2 !important;"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-info me-3 fs-4" style="color:#1DA1F2 !important;"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-danger me-3 fs-4" style="color:#C13584 !important;"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark fs-4" style="color:#0A66C2 !important;"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Google Map -->
-        <div class="mt-5 rounded overflow-hidden shadow" style="height:400px;">
+        <div class="mt-5 rounded-4 overflow-hidden shadow-lg" style="height:400px;">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.662224197551!2d90.41251867458413!3d23.868767184521067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c4621a5d72cf%3A0x456bb1db0ec85b0c!2sDhaka!5e0!3m2!1sen!2sbd!4v1698935673562!5m2!1sen!2sbd"
                     width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
             </iframe>
@@ -115,16 +115,20 @@
 
     public class ContactFormModel
     {
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "Name is required.")]
+        [StringLength(100)]
         public string? Name { get; set; }
 
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string? Email { get; set; }
 
-        [Required, StringLength(150)]
+        [Required(ErrorMessage = "Subject is required.")]
+        [StringLength(150)]
         public string? Subject { get; set; }
 
-        [Required, StringLength(1000)]
+        [Required(ErrorMessage = "Message is required.")]
+        [StringLength(1000)]
         public string? Message { get; set; }
     }
 }

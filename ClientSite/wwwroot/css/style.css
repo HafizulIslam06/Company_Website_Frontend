@@ -174,10 +174,7 @@
     }
 }
 
-/*================== Global Base Styles (Provided in prompt) ====================*/
-
-/* (Retain all your Base Colors & Text, Titles, Buttons, Links, Backgrounds CSS here) */
-
+/*================== About Section ====================*/
 /* --- Stat Boxes (Using base-about-stat) --- */
 .base-about-stat {
     padding: 1.2rem 1.5rem; /* Increased padding */
@@ -187,13 +184,14 @@
     background-color: #FFFFFF;
     color: #333333;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Softer initial shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Added border-color transition */
     border: 1px solid #EEEEEE;
 }
 
     .base-about-stat:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Lighter, higher lift shadow on hover */
+        border-color: #0099FF; /* Highlight border on hover */
     }
 
 /* Stat Accent Styling */
@@ -347,39 +345,128 @@
 }
 
 /*========================Service Section==================*/
-.service-card {
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
+/* --- Base Utility & Typography (Required for a unified look) --- */
+.base-main-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #333333;
 }
+
+.base-sub-heading {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #444444;
+}
+
+.base-subtitle-text {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0099FF; /* Brand Cyan */
+}
+
+.base-text {
+    color: #555555;
+}
+
+.base-section-description {
+    font-size: 1.15rem;
+    color: #555555;
+    margin-top: 1rem;
+}
+
+/* --- CTA Styling (Consistent with About Page) --- */
+.base-contact-cta {
+    background: linear-gradient(135deg, #0099FF, #0077CC); /* Brand Cyan Gradient */
+    color: white;
+}
+
+.base-cta-inverted {
+    background-color: white;
+    color: #0099FF !important;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+    .base-cta-inverted:hover {
+        background-color: #f0f0f0;
+    }
+
+.base-link {
+    color: #0099FF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .base-link:hover {
+        color: #0077CC;
+        text-decoration: underline;
+    }
+
+/* --- Service Card Styles (Exclusive Services - Section 2) --- */
+.service-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; /* Added border-color transition */
+    cursor: pointer;
+    border: 1px solid #e0e0e0 !important; /* Added border for definition */
+}
+
     .service-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        border-color: #0099FF !important; /* NEW: Border color change on hover */
     }
-        .service-card:hover .service-overlay {
-            opacity: 0.1;
-            background: linear-gradient(135deg, #0d6efd, #6f42c1);
-            transition: opacity 0.3s ease;
-        }
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0d6efd, #6f42c1);
-    border-color: #6f42c1;
-}
+
 .service-icon i {
     transition: transform 0.3s ease, color 0.3s ease;
 }
+
 .service-card:hover .service-icon i {
     transform: rotate(10deg) scale(1.2);
-    color: #6f42c1;
+    /* Note: Original hover color was a mix of blue/purple. */
+    /* Keeping original hover color for consistency with user's CSS */
+    color: #6f42c1 !important;
 }
+
+/* --- Differentiator List Styling --- */
+.base-value-list {
+    margin-top: 1.5rem;
+    text-align: left;
+    padding-left: 0;
+}
+
+    .base-value-list li {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        color: #555555;
+        list-style: none; /* Removed default bullet */
+    }
+
+/* --- Modern Tech Stack Card Styling (Technology Stack - Section 4) --- */
+.tech-stack-card {
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #e0e0e0;
+}
+
+    .tech-stack-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border-color: #0099FF; /* Highlight border on hover */
+        transform: translateY(-5px); /* NEW: Subtle lift on hover */
+    }
+
+    .tech-stack-card i {
+        color: #0099FF;
+    }
 
 /*=========================Product Section==================*/
 .product-section {
     background: #ffffff;
 }
+
 .product-title {
     color: #006a4e;
     font-weight: 700;
 }
+
 .product-card {
     background: #ffffff;
     padding: 28px 20px;
@@ -389,34 +476,43 @@
     text-align: center;
     transition: all 0.3s ease;
 }
+
     .product-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+        border-color: #0099FF; /* Added hover effect for border */
     }
+
     .product-card h5 {
         font-weight: 700;
         margin-bottom: 8px;
         color: #222;
     }
+
     .product-card p {
         font-size: 0.95rem;
         color: #555;
         margin-bottom: 20px;
     }
+
 .product-icon i {
     font-size: 45px;
     margin-bottom: 15px;
     display: inline-block;
 }
+
 .product-card.hrms .product-icon i {
     color: #2E7D32; /* Green */
 }
+
 .product-card.crm .product-icon i {
     color: #EF6C00; /* Orange */
 }
+
 .product-card.pos .product-icon i {
     color: #1E88E5; /* Blue */
 }
+
 .product-card.erp .product-icon i {
     color: #8E24AA; /* Purple */
 }
@@ -424,19 +520,25 @@
 
 /*=======================Who Choose us Section=================*/
 .why-card {
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; /* Added border-color transition */
+    border: 1px solid #e0e0e0; /* Added base border for hover effect to work */
 }
+
     .why-card:hover {
         transform: translateY(-12px);
         box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        border-color: #0099FF; /* Highlight border on hover */
     }
+
 .icon-container i {
     transition: transform 0.4s ease, color 0.4s ease;
 }
+
 .why-card:hover .icon-container i {
     transform: scale(1.3) rotate(10deg);
     color: #0d6efd;
 }
+
 @keyframes float {
     0%, 100% {
         transform: translateY(0);
@@ -581,6 +683,43 @@
     }
 
 /*Contact page*/
+:root {
+    --brand-cyan: #0099FF;
+    --brand-cyan-dark: #0077CC;
+}
+.base-title-color {
+    color: #333333; /* Dark text for titles */
+}
+
+/* --- Form Input Focus & Hover Styling --- */
+.form-control-lg {
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 1rem 1.25rem;
+}
+
+    .form-control-lg:focus {
+        border-color: var(--brand-cyan); /* Highlight border on focus */
+        box-shadow: 0 0 0 0.25rem rgba(0, 153, 255, 0.25); /* Subtle cyan glow */
+    }
+
+/* --- Custom Primary Button --- */
+.base-btn-primary {
+    background: linear-gradient(135deg, var(--brand-cyan), var(--brand-cyan-dark));
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .base-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 153, 255, 0.4);
+    }
+
+/* --- Floating Contact Widget --- */
 .floating-contact-widget {
     position: fixed;
     right: 25px;
@@ -622,7 +761,7 @@
         background-color: #28a745;
     }
 
-    /*Team view Arrow design*/
+/* --- Team View Arrow Design (Link Hover Effect) --- */
 .team-link {
     position: relative;
     font-family: 'Poppins', sans-serif;
@@ -637,6 +776,10 @@
     transition: color 0.3s ease;
 }
 
+    .team-link:hover { /* Hover effect for text color */
+        color: var(--brand-cyan-dark);
+    }
+
     .team-link .arrow {
         display: inline-block;
         width: 10px;
@@ -644,7 +787,12 @@
         border-right: 2px solid #1b6ec2;
         border-bottom: 2px solid #1b6ec2;
         transform: rotate(-45deg);
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .team-link:hover .arrow { /* Hover effect for arrow movement and color */
+        transform: rotate(-45deg) translateX(4px);
+        border-color: var(--brand-cyan-dark);
     }
 
 /*Logo*/
