@@ -375,3 +375,28 @@
     .floating-btn.call {
         background-color: #28a745;
     }
+
+    /*Team view Arrow design*/
+.team-link {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #1b6ec2; /* primary link color */
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* space between text and arrow */
+    transition: color 0.3s ease;
+}
+
+    .team-link .arrow {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid #1b6ec2;
+        border-bottom: 2px solid #1b6ec2;
+        transform: rotate(-45deg);
+        transition: transform 0.3s ease;
+    }
