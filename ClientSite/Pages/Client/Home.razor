@@ -19,54 +19,77 @@
     }
     else
     {
-        <div id="homeCarousel" class="container carousel slide" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="false">
-            <div class="carousel-inner rounded shadow">
+        @* Added base-carousel-wrapper class *@
+        <div id="homeCarousel" class="base-carousel-wrapper carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false">
+            @* Increased interval for smoother look *@
+            <div class="carousel-inner rounded shadow-lg">
+                @* Increased shadow to shadow-lg *@
                 @for (int i = 0; i < heroes.Count; i++)
                 {
                     var hero = heroes[i];
                     <div class="carousel-item @(i == 0 ? "active" : "")">
                         <img src="@hero.ImageUrl" class="d-block w-100" alt="@hero.Title">
+
+                        @* Added a dark overlay for better text contrast *@
+                        <div class="base-carousel-overlay"></div>
+
                         @if (!string.IsNullOrWhiteSpace(hero.Title) || !string.IsNullOrWhiteSpace(hero.ShortDescription))
                         {
-                            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 text-center">
+                            @* Added base-caption-content class *@
+                            <div class="base-caption-content carousel-caption d-flex flex-column justify-content-center align-items-center h-100 text-center">
                                 @if (!string.IsNullOrWhiteSpace(hero.Title))
                                 {
-                                    <h2 class="fw-bold bg-dark bg-opacity-50 p-3 rounded">@hero.Title</h2>
+                                    @* Using base-hero-title class *@
+                                    <h2 class="base-hero-title">@hero.Title</h2>
                                 }
                                 @if (!string.IsNullOrWhiteSpace(hero.ShortDescription))
                                 {
-                                    <p class="bg-dark bg-opacity-50 p-2 rounded">@hero.ShortDescription</p>
+                                    @* Using base-hero-description class *@
+                                    <p class="base-hero-description">@hero.ShortDescription</p>
                                 }
+
+                                @* Optional: Add a primary CTA button to the carousel *@
+                                @* <a href="/services" class="base-btn-primary mt-3">Explore Solutions</a> *@
                             </div>
                         }
                     </div>
                 }
             </div>
 
-            <!-- Controls -->
+            @* Indicators (Added for a modern look) *@
+            <div class="carousel-indicators">
+                @for (int i = 0; i < heroes.Count; i++)
+                {
+                    <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
+
             <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     }
 
 
     <!-- About Section -->
-    <section class="about-preview py-5 position-relative bg-light">
+    <section class="base-about-section">
+        @* Changed: from about-preview to base-about-section *@
         @if (aboutSection == null)
         {
-            <p>Loading...</p>
+            <p class="base-text text-center">Loading...</p> @* Added base-text class *@
         }
         else
         {
             <div class="container">
                 <div class="row align-items-center">
-                    <!-- Left: Image / Video -->
                     <div class="col-md-6 mb-5 mb-md-0">
-                        <div class="video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
+                        <div class="base-video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
+                            @* Changed: from video-wrapper to base-video-wrapper *@
                             @if (!string.IsNullOrEmpty(aboutSection.ImageUrl))
                             {
                                 <img src="@aboutSection.ImageUrl" alt="@aboutSection.Title" class="img-fluid w-100" />
@@ -74,48 +97,46 @@
 
                             @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
                             {
-                                <button type="button" class="play-btn position-absolute top-50 start-50 translate-middle rounded-circle"
+                                <button type="button" class="base-play-btn position-absolute top-50 start-50 translate-middle rounded-circle" @* Changed: from play-btn to base-play-btn *@
                                         data-bs-toggle="modal" data-bs-target="#aboutVideoModal">
-                                    <i class="bi bi-play-fill fs-2"></i>
+                                    <i class="bi bi-play-fill fs-2 text-white"></i> @* Added text-white to icon for contrast with cyan background *@
                                 </button>
                             }
                         </div>
                     </div>
 
-                    <!-- Right: Content -->
                     <div class="col-md-6 text-center text-md-start">
                         @if (!string.IsNullOrWhiteSpace(aboutSection.Title))
                         {
-                            <h2 class="fw-bold base-title-color">@aboutSection.Title</h2>
+                            @* Assuming aboutSection.Title is the main heading for this content block *@
+                            <h2 class="base-sub-heading">@aboutSection.Title</h2> @* Changed: from base-main-title to base-sub-heading, as this is a sub-section title in the broader homepage. *@
                         }
 
                         @if (!string.IsNullOrWhiteSpace(aboutSection.Description))
                         {
-                            <p class="text-muted">@aboutSection.Description</p>
+                            <p class="base-text">@aboutSection.Description</p> @* Changed: text-muted removed, using base-text *@
                         }
 
-                        <!-- Stats / Small Cards -->
                         <div class="d-flex flex-wrap gap-3 mb-4">
-                            <div class="about-stat text-center hover-color">
-                                <h4 class="fw-bold mb-0">4+</h4>
-                                <small>Years of Experience</small>
+                            <div class="base-about-stat text-center">
+                                <h4 class="fw-bold mb-0">4+</h4> @* h4 for stat number *@
+                                <small class="base-text">Years of Experience</small> @* Added base-text for consistency, might be overridden by stat box color *@
                             </div>
-                            <div class="about-stat text-center">
-                                <h4 class="fw-bold mb-0">100+</h4>
-                                <small>Projects Completed</small>
+                            <div class="base-about-stat text-center">
+                                <h4 class="fw-bold mb-0">100+</h4> @* h4 for stat number *@
+                                <small class="base-text">Projects Completed</small> @* Added base-text *@
                             </div>
-                            <div class="about-stat text-center">
-                                <h4 class="fw-bold mb-0">50+</h4>
-                                <small>Happy Clients</small>
+                            <div class="base-about-stat text-center">
+                                <h4 class="fw-bold mb-0">50+</h4> @* h4 for stat number *@
+                                <small class="base-text">Happy Clients</small> @* Added base-text *@
                             </div>
                         </div>
 
-                        <a href="/about" class="btn btn-lg">Learn More</a>
+                        <a href="/about" class="base-btn-primary btn-lg">Learn More</a> @* Changed: btn class removed as base-btn-primary includes full styling *@
                     </div>
                 </div>
             </div>
 
-            <!-- Video Modal -->
             @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
             {
                 var embedUrl = GetYouTubeEmbedUrl(aboutSection.VideoUrl);
@@ -148,13 +169,35 @@
         <WhyChooseUs />
     </div>
 
-    <div class="bg-light">
+    <div class="bg-light text-center pb-lg-5">
         <Blog />
+        <a href="/blog" class="team-link">
+            View All
+            <span class="arrow"></span>
+        </a>
     </div>
 
-    <div>
+    <div class="text-center">
         <TeamMembers />
+        <a href="/team" class="team-link">
+            View Full Team
+            <span class="arrow"></span>
+        </a>
     </div>
+    @* 
+    <footer class="base-footer-bg">
+        <p>Copyright &copy; 2023 Jatra Software. <a href="#" class="base-link">Privacy Policy</a></p>
+    </footer>
+
+    <section class="base-light-bg">
+        <h1 class="base-main-title">Innovative Solutions for Tomorrow</h1>
+        <p class="base-subtitle-text">Empowering businesses with cutting-edge technology.</p>
+
+        <p class="base-text">This is a paragraph of standard text.</p>
+
+        <a href="#" class="base-btn-primary">Learn More</a>
+        <a href="#" class="base-btn-secondary">Contact Us</a>
+    </section>   *@  
 </div>
 
 @* Code *@

@@ -2,13 +2,15 @@
 .navLinkItem {
     list-style: none;
 }
+
 .navLink {
     text-decoration: none;
-    color: #334155;
+    color: #555555;
     font-weight: 500;
     position: relative;
     transition: color 0.3s, transform 0.2s;
 }
+
     .navLink::after {
         content: '';
         position: absolute;
@@ -16,59 +18,229 @@
         height: 2px;
         left: 0;
         bottom: -4px;
-        background-color: #006a4e;
+        background-color: #0099FF;
         transition: width 0.3s;
     }
+
     .navLink:hover {
         color: #006a4e;
         transform: translateY(-2px);
     }
+
         .navLink:hover::after {
             width: 100%;
         }
 
 /* ====================Home section===================*/
-.carousel-item img {
-    height: 45vh;
-    object-fit: cover;
+/* --- Hero Carousel Styles --- */
+
+.base-carousel-wrapper {
+    /* Optional: Set max width if needed, or let container handle it */
+    margin: 2rem 0;
 }
 
-/*==================About Section====================*/
-.about-preview {
-    background: #ffffff; 
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+.carousel-item {
+    position: relative;
 }
-.about-stat {
-    padding: 1rem 1.5rem;
+
+    /* Base Image Height and Fit */
+    .carousel-item img {
+        height: 60vh; /* Increased height for better impact */
+        object-fit: cover;
+        filter: brightness(0.9); /* Slightly darken image globally */
+    }
+
+/* Dark Gradient Overlay for Contrast */
+.base-carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Soft gradient from transparent to a dark gray/black */
+    background: linear-gradient( to top, rgba(0, 0, 0, 0.4) 0%, /* Darker at bottom */
+    rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.1) 100% /* Lighter at top */
+    );
+    z-index: 10;
+}
+
+/* Caption Container Styling */
+.base-caption-content {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Override Bootstrap's default caption background/padding */
+    background: none !important;
+    padding-bottom: 5rem; /* Push content up slightly from the very bottom */
+    z-index: 20; /* Ensure content is above the overlay */
+}
+
+/* Hero Title Styling */
+.base-hero-title {
+    color: #FFFFFF; /* White text for high contrast */
+    font-size: 4.5rem; /* Large, impactful size */
+    font-weight: 800; /* Extra bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for text pop */
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    max-width: 80%;
+    /* Apply a subtle animation for professionalism */
+    animation: fadeInDown 1s ease-out;
+}
+
+/* Hero Description Styling */
+.base-hero-description {
+    color: #DDDDDD; /* Light gray/white text */
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 70%;
+    margin-bottom: 2rem;
+    /* Apply a subtle animation for professionalism */
+    animation: fadeInUp 1s ease-out 0.2s; /* Start slightly later */
+}
+
+/* Carousel Indicators (Dots) */
+.carousel-indicators button {
+    background-color: #0099FF; /* Brand Cyan color for indicators */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: opacity 0.3s, background-color 0.3s;
+}
+
+.carousel-indicators .active {
+    background-color: #0099FF; /* Active indicator is solid Brand Cyan */
+    opacity: 1;
+}
+
+/* --- Keyframe Animations for Caption Text (Requires additional CSS) --- */
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .carousel-item img {
+        height: 50vh;
+    }
+
+    .base-hero-title {
+        font-size: 3rem;
+    }
+
+    .base-hero-description {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: 40vh;
+    }
+
+    .base-hero-title {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
+
+    .base-hero-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/*================== Global Base Styles (Provided in prompt) ====================*/
+
+/* (Retain all your Base Colors & Text, Titles, Buttons, Links, Backgrounds CSS here) */
+
+/* --- Stat Boxes (Using base-about-stat) --- */
+.base-about-stat {
+    padding: 1.2rem 1.5rem; /* Increased padding */
     border-radius: 12px;
     min-width: 130px;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Soft shadow */
+    background-color: #FFFFFF;
+    color: #333333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Softer initial shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #EEEEEE;
 }
-    .about-stat:hover {
+
+    .base-about-stat:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-    .about-stat:nth-child(1) {
-        background: linear-gradient(135deg, #006a4e, #009b6b); /* Dark green → lighter green */
-        color: #fff !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Lighter, higher lift shadow on hover */
     }
 
-    .about-stat:nth-child(2) {
-        background: linear-gradient(135deg, #007a55, #00b376); /* Slightly brighter green gradient */
-        color: #fff !important;
+/* Stat Accent Styling */
+.base-stat-1 {
+    border-bottom: 4px solid #0099FF; /* Brand Cyan accent */
+}
+
+.base-stat-2 {
+    border-bottom: 4px solid #555555; /* Darker accent */
+}
+/* Stat 3 uses a solid background for maximum contrast/impact */
+.base-stat-3 {
+    background-color: #0099FF; /* Brand Cyan */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-bottom: 4px solid #0077CC;
+}
+
+    .base-stat-3 h3, .base-stat-3 p {
+        color: #FFFFFF !important;
     }
 
-    .about-stat:nth-child(3) {
-        background: linear-gradient(135deg, #c8102e, #ff4d4d); /* Red accents for Bangladesh flag */
-        color: #fff !important;
-    }
-.play-btn {
+/* Stat Text */
+.base-about-stat h3 {
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    font-size: 2.2rem;
+}
+
+.base-about-stat p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+
+/* --- Video Section --- */
+.base-video-wrapper {
+    position: relative;
+    z-index: 1; /* Ensure video wrapper is above surrounding elements if any */
+}
+
+/* Play Button (YouTube Red-inspired, but softened) */
+.base-play-btn {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #f42a41, #ff6b6b); /* red gradient */
+    background: linear-gradient(135deg, #FF4D4D, #E63946); /* Softer Red Gradient */
     border: none;
     color: #fff;
     font-size: 2rem;
@@ -76,36 +248,101 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 8px 25px rgba(244, 42, 65, 0.4);
+    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
     transition: all 0.3s ease;
+    z-index: 10;
 }
-    .play-btn:hover {
+
+    .base-play-btn:hover {
         transform: scale(1.1);
-        box-shadow: 0 10px 30px rgba(244, 42, 65, 0.6);
+        /* Changed shadow back to the RED accent for consistency with button color */
+        box-shadow: 0 10px 30px rgba(255, 77, 77, 0.6);
     }
-.video-wrapper img {
+
+.base-video-wrapper img {
     border-radius: 1rem;
     transition: transform 0.5s ease, filter 0.5s ease;
+    object-fit: cover;
 }
-    .video-wrapper img:hover {
-        transform: scale(1.05);
+
+    .base-video-wrapper img:hover {
+        transform: scale(1.02); /* Reduced scale slightly */
         filter: brightness(0.85);
     }
 
+/* --- Section Heading/Text Overrides --- */
+
+/* For the main H1 "About Jatra Software" */
+.base-section-description {
+    color: #666666;
+    font-size: 1.25rem; /* Slightly larger */
+    line-height: 1.7;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* For the H3 title (Right side of content block) */
+.base-sub-heading {
+    color: #333333;
+    font-size: 2rem; /* Slightly larger */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* For the paragraph below H3 */
+.base-sub-description {
+    color: #666666;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* --- CTA Section Styling --- */
+.base-contact-cta {
+    background: linear-gradient(135deg, #0099FF, #0077CC); /* Using Brand Cyan gradient */
+    color: #FFFFFF;
+}
+
+/* Inverted CTA button (white background on dark banner) */
+.base-cta-inverted {
+    background-color: #FFFFFF !important;
+    color: #0099FF !important; /* Brand Cyan text */
+    border: 1px solid #FFFFFF !important;
+    transition: all 0.3s ease;
+}
+
+    .base-cta-inverted:hover {
+        background-color: #DDDDDD !important; /* Slight gray hover */
+        transform: translateY(-2px);
+    }
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .base-about-stat {
+        padding: 1rem 1rem;
+        min-width: unset;
+    }
+}
+
 @media (max-width: 768px) {
-    .about-preview h2 {
-        font-size: 2rem;
+    .base-section-heading {
+        font-size: 2.2rem;
     }
-    .about-preview p {
-        font-size: 1rem;
+
+    .base-section-description {
+        font-size: 1.1rem;
+        width: 95% !important;
     }
-    .about-stat {
-        min-width: 100px;
-        padding: 0.8rem 1rem;
+
+    .base-sub-heading {
+        font-size: 1.7rem;
     }
-    .btn {
-        font-size: 0.85rem;
-        padding: 0.4rem 1rem;
+
+    .base-about-stat {
+        min-width: unset;
+        width: 100%;
+        margin-bottom: 1rem;
     }
 }
 
@@ -305,11 +542,20 @@
 
 /* Title styling */
 .base-title-color {
-    color: #006a4e; /* Dark gray color */
+    color: #333333;
 }
 .hover-color {
     transition: background-color 0.3s ease; /* Smooth color change */
     background-color: #f5f5f5; /* Soft, light hover color */
+}
+
+.main-title {
+    color: #333333; /* Very dark gray, softer than pure black but still strong */
+    font-size: 3rem; /* Example size, adjust for H1 */
+    font-weight: 700; /* Bold */
+    text-align: center;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
 }
 
 /* Universal button style */
@@ -333,3 +579,108 @@
         background-color: #005740; /* Slightly darker blue on hover */
         transform: translateY(-2px); /* Slight lift effect */
     }
+
+/*Contact page*/
+.floating-contact-widget {
+    position: fixed;
+    right: 25px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+}
+
+.floating-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: white !important;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+    .floating-btn:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    .floating-btn.wa {
+        background-color: #25D366;
+    }
+
+    .floating-btn.calendly {
+        background-color: #0069ff;
+    }
+
+    .floating-btn.call {
+        background-color: #28a745;
+    }
+
+    /*Team view Arrow design*/
+.team-link {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #1b6ec2; /* primary link color */
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* space between text and arrow */
+    transition: color 0.3s ease;
+}
+
+    .team-link .arrow {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid #1b6ec2;
+        border-bottom: 2px solid #1b6ec2;
+        transform: rotate(-45deg);
+        transition: transform 0.3s ease;
+    }
+
+/*Logo*/
+.jatra-logo {
+    /* Ensures everything is on one line and aligned */
+    display: inline-flex;
+    align-items: center;
+    gap: 0; /* Control spacing manually */
+    font-size: 1.5rem; /* Base size, adjust as needed */
+}
+
+.jatra-text {
+    /* Styling for 'jatra' */
+    color: #333333;
+    font-weight: 700; /* Semi-bold or bold, matching your desired 'jatra' look */
+    /* Ensure the font matches the requested style for Jatra */
+    font-family: Arial, sans-serif; /* Replace with your actual logo font */
+}
+
+.jatra-dot {
+    /* Styling for the blue dot */
+    width: 0.6em; /* Size relative to the font height */
+    height: 0.6em;
+    background-color: #0099ff; /* The blue color */
+    border-radius: 50%;
+    margin: 0 0.3em; /* Space it out from 'jatra' and 'software' */
+    display: inline-block;
+    vertical-align: middle;
+    font-style: italic; /* Makes it italic */
+}
+
+.software-text {
+    /* Styling for 'software' */
+    color: #000; /* Black color */
+    font-weight: 400; /* Lighter weight than 'jatra' */
+    font-size: 0.9em; /* Slightly smaller size than 'jatra' */
+    /* Ensure the font matches the requested style for software */
+    font-family: Arial, sans-serif;
+}
