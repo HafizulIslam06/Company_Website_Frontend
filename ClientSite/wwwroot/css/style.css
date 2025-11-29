@@ -2,13 +2,15 @@
 .navLinkItem {
     list-style: none;
 }
+
 .navLink {
     text-decoration: none;
-    color: #334155;
+    color: #555555;
     font-weight: 500;
     position: relative;
     transition: color 0.3s, transform 0.2s;
 }
+
     .navLink::after {
         content: '';
         position: absolute;
@@ -16,13 +18,15 @@
         height: 2px;
         left: 0;
         bottom: -4px;
-        background-color: #006a4e;
+        background-color: #0099FF;
         transition: width 0.3s;
     }
+
     .navLink:hover {
         color: #006a4e;
         transform: translateY(-2px);
     }
+
         .navLink:hover::after {
             width: 100%;
         }
@@ -33,42 +37,65 @@
     object-fit: cover;
 }
 
-/*==================About Section====================*/
-.about-preview {
-    background: #ffffff; 
+/*================== About Section ====================*/
+
+/* Main container for the about section */
+.base-about-section {
+    background-color: #FFFFFF; /* White background */
     padding-top: 4rem;
     padding-bottom: 4rem;
 }
-.about-stat {
+
+/* About Stat Box */
+.base-about-stat {
     padding: 1rem 1.5rem;
     border-radius: 12px;
     min-width: 130px;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Soft shadow */
+    background-color: #FFFFFF; /* White background for stats */
+    color: #333333; /* Dark gray text */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #EEEEEE; /* Subtle border for definition */
 }
-    .about-stat:hover {
+
+    /* About Stat Box Hover Effect */
+    .base-about-stat:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
     }
-    .about-stat:nth-child(1) {
-        background: linear-gradient(135deg, #006a4e, #009b6b); /* Dark green → lighter green */
-        color: #fff !important;
+    .base-about-stat:nth-child(1) {
+        border-color: #0099FF;
+        color: #333333;
+    }
+    .base-about-stat:nth-child(2) {
+        border-color: #0099FF;
+        color: #333333;
+    }
+    .base-about-stat:nth-child(3) {
+        border-color: #0099FF; /* Matching border color */
+        color: #333333;
+    }
+    /* Stat text inside these boxes */
+    .base-about-stat h3 {
+        color: inherit; /* Inherit color from parent stat box */
+        font-weight: 700; /* Bold numbers */
+        margin-bottom: 0.2rem;
     }
 
-    .about-stat:nth-child(2) {
-        background: linear-gradient(135deg, #007a55, #00b376); /* Slightly brighter green gradient */
-        color: #fff !important;
+    .base-about-stat p {
+        color: inherit; /* Inherit color from parent stat box */
+        font-size: 0.95rem;
+        opacity: 0.9; /* Slightly softer text */
     }
 
-    .about-stat:nth-child(3) {
-        background: linear-gradient(135deg, #c8102e, #ff4d4d); /* Red accents for Bangladesh flag */
-        color: #fff !important;
-    }
-.play-btn {
+
+/* Play Button for Video */
+.base-play-btn {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #f42a41, #ff6b6b); /* red gradient */
+    /* background: linear-gradient(135deg, #0099FF, #0077CC); */
+    background: linear-gradient(135deg, #FF4D4D, #E63946);
     border: none;
     color: #fff;
     font-size: 2rem;
@@ -76,36 +103,87 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 8px 25px rgba(244, 42, 65, 0.4);
+    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
     transition: all 0.3s ease;
 }
-    .play-btn:hover {
+
+    /* Play Button Hover Effect */
+    .base-play-btn:hover {
         transform: scale(1.1);
-        box-shadow: 0 10px 30px rgba(244, 42, 65, 0.6);
+        box-shadow: 0 10px 30px rgba(0, 153, 255, 0.6); /* More pronounced cyan shadow */
     }
-.video-wrapper img {
+
+/* Video Wrapper Image */
+.base-video-wrapper img {
     border-radius: 1rem;
     transition: transform 0.5s ease, filter 0.5s ease;
+    object-fit: cover; /* Ensure image covers the area */
 }
-    .video-wrapper img:hover {
+
+    /* Video Wrapper Image Hover Effect */
+    .base-video-wrapper img:hover {
         transform: scale(1.05);
         filter: brightness(0.85);
     }
 
+
+/* --- General Section Headings and Text (re-using base classes) --- */
+
+/* For the main H1 "About Bits Bangla" */
+.base-section-heading {
+    /* Uses .base-main-title for primary text color and other properties */
+    color: #333333; /* Dark gray */
+    font-size: 2.5rem; /* Slightly smaller than hero H1 if needed */
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* For the description paragraph under the main heading */
+.base-section-description {
+    color: #666666; /* Slightly lighter gray for paragraph text */
+    font-size: 1.1rem; /* Adjust as per your original 1.2rem */
+    line-height: 1.7; /* Good line spacing for readability */
+    max-width: 75%; /* Constrain width for readability */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* For the H3 title "AboutSection.Title" */
+.base-sub-heading {
+    color: #333333; /* Dark gray */
+    font-size: 1.8rem; /* Suitable for H3 */
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* For the paragraph below H3 */
+.base-sub-description {
+    color: #666666; /* Lighter gray for readability */
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .about-preview h2 {
+    .base-section-heading {
         font-size: 2rem;
     }
-    .about-preview p {
+
+    .base-section-description {
         font-size: 1rem;
+        width: 90% !important; /* Adjust width for mobile */
     }
-    .about-stat {
-        min-width: 100px;
-        padding: 0.8rem 1rem;
+
+    .base-about-stat {
+        min-width: unset; /* Remove min-width to allow full width on small screens */
+        width: 100%; /* Make them full width on mobile if desired */
+        margin-bottom: 1rem; /* Add space between stacked stats */
     }
-    .btn {
-        font-size: 0.85rem;
-        padding: 0.4rem 1rem;
+
+    .base-play-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
     }
 }
 
@@ -305,11 +383,20 @@
 
 /* Title styling */
 .base-title-color {
-    color: #006a4e; /* Dark gray color */
+    color: #333333;
 }
 .hover-color {
     transition: background-color 0.3s ease; /* Smooth color change */
     background-color: #f5f5f5; /* Soft, light hover color */
+}
+
+.main-title {
+    color: #333333; /* Very dark gray, softer than pure black but still strong */
+    font-size: 3rem; /* Example size, adjust for H1 */
+    font-weight: 700; /* Bold */
+    text-align: center;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
 }
 
 /* Universal button style */
@@ -400,3 +487,41 @@
         transform: rotate(-45deg);
         transition: transform 0.3s ease;
     }
+
+/*Logo*/
+.jatra-logo {
+    /* Ensures everything is on one line and aligned */
+    display: inline-flex;
+    align-items: center;
+    gap: 0; /* Control spacing manually */
+    font-size: 1.5rem; /* Base size, adjust as needed */
+}
+
+.jatra-text {
+    /* Styling for 'jatra' */
+    color: #333333;
+    font-weight: 700; /* Semi-bold or bold, matching your desired 'jatra' look */
+    /* Ensure the font matches the requested style for Jatra */
+    font-family: Arial, sans-serif; /* Replace with your actual logo font */
+}
+
+.jatra-dot {
+    /* Styling for the blue dot */
+    width: 0.6em; /* Size relative to the font height */
+    height: 0.6em;
+    background-color: #0099ff; /* The blue color */
+    border-radius: 50%;
+    margin: 0 0.3em; /* Space it out from 'jatra' and 'software' */
+    display: inline-block;
+    vertical-align: middle;
+    font-style: italic; /* Makes it italic */
+}
+
+.software-text {
+    /* Styling for 'software' */
+    color: #000; /* Black color */
+    font-weight: 400; /* Lighter weight than 'jatra' */
+    font-size: 0.9em; /* Slightly smaller size than 'jatra' */
+    /* Ensure the font matches the requested style for software */
+    font-family: Arial, sans-serif;
+}

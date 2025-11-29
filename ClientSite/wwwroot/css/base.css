@@ -1,0 +1,99 @@
+﻿/* --- Base Colors & Text --- */
+
+/* Main Text Color - for paragraphs and general content */
+.base-text {
+    color: #555555; /* Dark gray for readability */
+}
+
+/* --- Titles --- */
+
+/* Main Title Color - for H1, H2 */
+.base-main-title {
+    color: #333333; /* Very dark gray, strong and professional */
+    /* Add other properties like font-size, font-weight, line-height, text-align as needed */
+    font-size: 2.6rem; /* Example size */
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* Subtitle Color - for descriptive text under main titles */
+.base-subtitle-text {
+    color: #0099FF; /* Brand Cyan/Accent Blue */
+    /* Add other properties like font-size, font-weight, line-height, text-align as needed */
+    font-size: 1.25rem; /* Example size */
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* --- Buttons --- */
+
+/* Primary Button - default state (e.g., "Learn More") */
+.base-btn-primary {
+    background-color: #0099FF; /* Brand Cyan */
+    color: #FFFFFF; /* White text */
+    border: 1px solid #0099FF;
+    padding: 0.75rem 1.5rem; /* Example padding */
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    text-decoration: none; /* Remove underline for links used as buttons */
+    display: inline-block; /* Allows padding and width settings */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+    /* Primary Button - hover state */
+    .base-btn-primary:hover {
+        background-color: #0077CC; /* Darker Cyan */
+        border-color: #0077CC;
+        color: #FFFFFF;
+    }
+
+/* Secondary Button - default state (e.g., "Contact Us" with outline) */
+.base-btn-secondary {
+    background-color: transparent; /* Transparent background */
+    color: #0099FF; /* Brand Cyan text */
+    border: 1px solid #0099FF; /* Brand Cyan border */
+    padding: 0.75rem 1.5rem; /* Example padding */
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+    /* Secondary Button - hover state */
+    .base-btn-secondary:hover {
+        background-color: #0099FF; /* Brand Cyan fill */
+        color: #FFFFFF; /* White text */
+        border-color: #0099FF; /* Keep border color consistent */
+    }
+
+/* --- Links --- */
+
+/* General Link Color - for inline text links */
+.base-link {
+    color: #0099FF; /* Brand Cyan */
+    text-decoration: none; /* Optional: remove underline by default */
+    transition: color 0.3s ease;
+}
+
+    /* General Link Hover Color */
+    .base-link:hover {
+        color: #0077CC; /* Darker Cyan */
+        text-decoration: underline; /* Optional: add underline on hover */
+    }
+
+/* --- Backgrounds --- */
+
+/* Footer Background Color */
+.base-footer-bg {
+    background-color: #222222; /* Dark gray for footer */
+    color: #DDDDDD; /* Light gray text for contrast */
+}
+
+/* Light Background Color - for main content sections */
+.base-light-bg {
+    background-color: #F8F8F8; /* Very light gray */
+}
+
+/* White Background Color */
+.base-white-bg {
+    background-color: #FFFFFF; /* Pure white */
+}
