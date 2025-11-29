@@ -19,36 +19,58 @@
     }
     else
     {
-        <div id="homeCarousel" class="container carousel slide" data-bs-ride="carousel" data-bs-interval="2500" data-bs-pause="false">
-            <div class="carousel-inner rounded shadow">
+        @* Added base-carousel-wrapper class *@
+        <div id="homeCarousel" class="base-carousel-wrapper carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false">
+            @* Increased interval for smoother look *@
+            <div class="carousel-inner rounded shadow-lg">
+                @* Increased shadow to shadow-lg *@
                 @for (int i = 0; i < heroes.Count; i++)
                 {
                     var hero = heroes[i];
                     <div class="carousel-item @(i == 0 ? "active" : "")">
                         <img src="@hero.ImageUrl" class="d-block w-100" alt="@hero.Title">
+
+                        @* Added a dark overlay for better text contrast *@
+                        <div class="base-carousel-overlay"></div>
+
                         @if (!string.IsNullOrWhiteSpace(hero.Title) || !string.IsNullOrWhiteSpace(hero.ShortDescription))
                         {
-                            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 text-center">
+                            @* Added base-caption-content class *@
+                            <div class="base-caption-content carousel-caption d-flex flex-column justify-content-center align-items-center h-100 text-center">
                                 @if (!string.IsNullOrWhiteSpace(hero.Title))
                                 {
-                                    <h2 class="fw-bold bg-dark bg-opacity-50 p-3 rounded">@hero.Title</h2>
+                                    @* Using base-hero-title class *@
+                                    <h2 class="base-hero-title">@hero.Title</h2>
                                 }
                                 @if (!string.IsNullOrWhiteSpace(hero.ShortDescription))
                                 {
-                                    <p class="bg-dark bg-opacity-50 p-2 rounded">@hero.ShortDescription</p>
+                                    @* Using base-hero-description class *@
+                                    <p class="base-hero-description">@hero.ShortDescription</p>
                                 }
+
+                                @* Optional: Add a primary CTA button to the carousel *@
+                                @* <a href="/services" class="base-btn-primary mt-3">Explore Solutions</a> *@
                             </div>
                         }
                     </div>
                 }
             </div>
 
-            <!-- Controls -->
+            @* Indicators (Added for a modern look) *@
+            <div class="carousel-indicators">
+                @for (int i = 0; i < heroes.Count; i++)
+                {
+                    <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
+
             <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     }
@@ -147,8 +169,12 @@
         <WhyChooseUs />
     </div>
 
-    <div class="bg-light">
+    <div class="bg-light text-center pb-lg-5">
         <Blog />
+        <a href="/blog" class="team-link">
+            View All
+            <span class="arrow"></span>
+        </a>
     </div>
 
     <div class="text-center">
@@ -158,9 +184,7 @@
             <span class="arrow"></span>
         </a>
     </div>
-
-    
-
+    @* 
     <footer class="base-footer-bg">
         <p>Copyright &copy; 2023 Jatra Software. <a href="#" class="base-link">Privacy Policy</a></p>
     </footer>
@@ -173,7 +197,7 @@
 
         <a href="#" class="base-btn-primary">Learn More</a>
         <a href="#" class="base-btn-secondary">Contact Us</a>
-    </section>    
+    </section>   *@  
 </div>
 
 @* Code *@

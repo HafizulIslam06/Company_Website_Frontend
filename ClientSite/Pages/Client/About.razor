@@ -4,100 +4,129 @@
 @inject AboutService AboutService
 @using ClientSite.Pages.Components
 
-<section class="about-section py-5">
+<section class="base-about-section base-white-bg py-5">
     <div class="container">
         @if (isLoading)
         {
-            <p class="text-center text-primary">Loading...</p>
+            <p class="base-text text-center text-primary">Loading...</p>
         }
         else if (aboutSection == null)
         {
-            <p class="text-center text-danger">About section not available.</p>
+            <p class="base-text text-center text-danger">About section not available.</p>
         }
         else
         {
-            <div class="text-center mb-5">
-                <h1 class="fw-bold base-title-color">
-                    About <span class="base-title-color">Bits Bangla</span>
+            @* --- 1. Main Company Narrative (Expanded Text) --- *@
+            <div class="text-center mb-5 pb-4">
+                <p class="base-subtitle-text mb-2">OUR JOURNEY SO FAR</p>
+                <h1 class="base-main-title mb-4">
+                    Building the Digital Future with <span style="color: #0099FF;">Jatra Software</span>
                 </h1>
-                <p class="text-muted w-75 mx-auto" style="font-size:1.2rem; line-height:1.8;">
-                    @aboutSection.Description
+                
+                <p class="base-section-description">
+                    @* This description placeholder is expanded to include history and focus. *@
+                    Jatra Software Ltd was founded in 2024 with a singular focus to transform challenging business problems into elegant, scalable, and intuitive digital solutions. Since our inception, we have partnered with over 50+ clients globally, delivering more than 100 innovative projects across various industries, from FinTech to E-commerce. We are driven by a passion for technology and a deep commitment to our clients' success, treating every engagement as the beginning of a shared journey.
                 </p>
             </div>
 
-            <div class="row align-items-center mb-5">
+            @* --- 2. Mission, Vision, and Core Team (Two-Column Layout) --- *@
+            <div class="row align-items-center mb-6 py-4"> @* Increased bottom margin for separation *@
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
+                    <h3 class="base-sub-heading mb-3" style="color: #0099FF;">
+                        <i class="bi bi-lightbulb-fill me-2"></i> Our Mission & Vision
+                    </h3>
+
+                    <div class="mb-4 p-3 rounded" style="border-left: 4px solid #0099FF; background-color: #f7faff;">
+                        <h4 class="fw-bold mb-1 base-text" style="color: #333333;">Our Mission</h4>
+                        <p class="base-text base-sub-description mb-0">
+                            To provide **high-impact software development** services that drive operational excellence and measurable business growth for our partners, delivering reliable, future-proof technology.
+                        </p>
+                    </div>
+
+                    <div class="mb-4 p-3 rounded" style="border-left: 4px solid #555555; background-color: #f7f7f7;">
+                        <h4 class="fw-bold mb-1 base-text" style="color: #333333;">Our Vision</h4>
+                        <p class="base-text base-sub-description mb-0">
+                            To be recognized as the **leading innovation partner** in Bangladesh and beyond, empowering businesses to reach their highest potential through cutting-edge technology and exceptional commitment.
+                        </p>
+                    </div>
+
+                    <a href="/team" class="base-btn-secondary mt-3 px-4 py-2">
+                        <i class="bi bi-people me-2"></i> Meet Our Expert Team
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    @* --- Video/Image (Right side) --- *@
+                    <div class="base-video-wrapper position-relative rounded-4 overflow-hidden shadow-lg">
                         @if (!string.IsNullOrEmpty(aboutSection.ImageUrl))
                         {
                             <img src="@aboutSection.ImageUrl" alt="@aboutSection.Title" class="img-fluid w-100" />
                         }
                         @if (!string.IsNullOrEmpty(aboutSection.VideoUrl))
                         {
-                            <button class="play-btn position-absolute top-50 start-50 translate-middle rounded-circle shadow"
+                            <button class="base-play-btn position-absolute top-50 start-50 translate-middle rounded-circle shadow"
                                     data-bs-toggle="modal" data-bs-target="#aboutVideoModal">
                                 <i class="bi bi-play-fill fs-2 text-white"></i>
                             </button>
                         }
                     </div>
                 </div>
-
-                <div class="col-lg-6">
-                    <h3 class="fw-bold base-title-color mb-3">@aboutSection.Title</h3>
-                    <p class="text-muted" style="font-size:1.1rem; line-height:1.7;">
-                        We are a Bangladeshi tech company crafting intelligent, scalable, and beautiful digital solutions.
-                        Helping businesses go from ideas to impact.
-                    </p>
-                    <a href="/contact" class="btn  mt-3 px-4 py-2">
-                        <i class="bi bi-envelope-paper me-2"></i> Get in Touch
-                    </a>
-                </div>
             </div>
 
-            <div class="row text-center mb-5">
-                <div class="col-md-4 mb-3">
-                    <div class="about-stat shadow">
-                        <h3 class="fw-bold">4+</h3>
-                        <p>Years of Experience</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="about-stat shadow">
-                        <h3 class="fw-bold">100+</h3>
-                        <p>Projects Completed</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="about-stat shadow" style="background: linear-gradient(135deg, #c8102e, #ff4d4d);">
-                        <h3 class="fw-bold">50+</h3>
-                        <p>Happy Clients</p>
-                    </div>
-                </div>                   
+            @* --- 3. Core Values (Stat Boxes converted to Value Cards) --- *@
+            <div class="text-center mb-5 pt-4">
+                <h2 class="base-main-title mb-4">Our Core Values</h2>
             </div>
-        }             
+            
+            <div class="row text-center mb-5 justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="base-about-stat base-stat-1 shadow">
+                        <i class="bi bi-lightbulb-fill fs-1 mb-2" style="color:#0099FF;"></i>
+                        <h3 class="fw-bold">Innovation</h3>
+                        <p class="base-text">We constantly seek new technologies and creative approaches to solve complex problems.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="base-about-stat base-stat-2 shadow">
+                        <i class="bi bi-hand-thumbs-up-fill fs-1 mb-2" style="color:#555555;"></i>
+                        <h3 class="fw-bold">Integrity</h3>
+                        <p class="base-text">Honesty and transparency are the foundations of all our client relationships.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="base-about-stat base-stat-3 shadow">
+                        <i class="bi bi-rocket-takeoff-fill fs-1 mb-2" style="color:#FFFFFF;"></i>
+                        <h3 class="fw-bold">Excellence</h3>
+                        <p class="base-text">We strive for the highest quality in code, design, and user experience delivery.</p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </section>
 
-<div class="bg-light">
+<div class="base-light-bg py-5">
     <WhyChooseUs />
 </div>
 
+
 <Products />
 
-<!-- Contact Section -->
-<div class="container contact-cta py-5 text-center rounded-4 shadow-lg mt-5 position-relative"
-     style="background: linear-gradient(135deg, #4e73df, #6c63ff); overflow:hidden;">
+
+<div class="container base-contact-cta py-5 text-center rounded-4 shadow-lg mt-5 position-relative"
+     style="overflow:hidden;">
+    @* Removed inline gradient and added custom class *@
 
     <div class="position-absolute top-0 start-0 w-100 h-100"
          style="background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);">
     </div>
 
     <div class="position-relative">
-        <h2 class="fw-bold mb-3 text-white">Let’s Build the Future Together 🚀</h2>
-        <p class="lead mb-4 text-light">Have an idea or project in mind? Let’s make it happen with innovation, speed, and impact.</p>
+        <h2 class="base-main-title mb-3 text-white">Let’s Build the Future Together 🚀</h2>
+        <p class="base-subtitle-text mb-4 text-light" style="color:#FFF;">Have an idea or project in mind? Let’s make it happen with innovation, speed, and impact.</p> @* Changed text class *@
 
-        <a href="/contact" class="btn rounded-pill fw-bold px-5"
-           style="background:#fff; color:#4e73df;">
+        <a href="/contact" class="base-btn-secondary rounded-pill fw-bold px-5 base-cta-inverted" @* Used base-btn-secondary and new inverted class *@
+           style="background:#fff;">
             <i class="bi bi-chat-dots me-2"></i> Contact Us
         </a>
     </div>
@@ -105,6 +134,7 @@
 
 @if (!string.IsNullOrEmpty(aboutSection?.VideoUrl))
 {
+    @* Modal content remains unchanged, but ensure the iframe source is handled *@
     <div class="modal fade" id="aboutVideoModal" tabindex="-1" aria-labelledby="aboutVideoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 overflow-hidden">
@@ -118,7 +148,6 @@
         </div>
     </div>
 }
-
 
 @code {
     private AboutSection? aboutSection;

@@ -32,70 +32,215 @@
         }
 
 /* ====================Home section===================*/
-.carousel-item img {
-    height: 45vh;
-    object-fit: cover;
+/* --- Hero Carousel Styles --- */
+
+.base-carousel-wrapper {
+    /* Optional: Set max width if needed, or let container handle it */
+    margin: 2rem 0;
 }
 
-/*================== About Section ====================*/
-
-/* Main container for the about section */
-.base-about-section {
-    background-color: #FFFFFF; /* White background */
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+.carousel-item {
+    position: relative;
 }
 
-/* About Stat Box */
+    /* Base Image Height and Fit */
+    .carousel-item img {
+        height: 60vh; /* Increased height for better impact */
+        object-fit: cover;
+        filter: brightness(0.9); /* Slightly darken image globally */
+    }
+
+/* Dark Gradient Overlay for Contrast */
+.base-carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Soft gradient from transparent to a dark gray/black */
+    background: linear-gradient( to top, rgba(0, 0, 0, 0.4) 0%, /* Darker at bottom */
+    rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.1) 100% /* Lighter at top */
+    );
+    z-index: 10;
+}
+
+/* Caption Container Styling */
+.base-caption-content {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Override Bootstrap's default caption background/padding */
+    background: none !important;
+    padding-bottom: 5rem; /* Push content up slightly from the very bottom */
+    z-index: 20; /* Ensure content is above the overlay */
+}
+
+/* Hero Title Styling */
+.base-hero-title {
+    color: #FFFFFF; /* White text for high contrast */
+    font-size: 4.5rem; /* Large, impactful size */
+    font-weight: 800; /* Extra bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for text pop */
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    max-width: 80%;
+    /* Apply a subtle animation for professionalism */
+    animation: fadeInDown 1s ease-out;
+}
+
+/* Hero Description Styling */
+.base-hero-description {
+    color: #DDDDDD; /* Light gray/white text */
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 70%;
+    margin-bottom: 2rem;
+    /* Apply a subtle animation for professionalism */
+    animation: fadeInUp 1s ease-out 0.2s; /* Start slightly later */
+}
+
+/* Carousel Indicators (Dots) */
+.carousel-indicators button {
+    background-color: #0099FF; /* Brand Cyan color for indicators */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: opacity 0.3s, background-color 0.3s;
+}
+
+.carousel-indicators .active {
+    background-color: #0099FF; /* Active indicator is solid Brand Cyan */
+    opacity: 1;
+}
+
+/* --- Keyframe Animations for Caption Text (Requires additional CSS) --- */
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .carousel-item img {
+        height: 50vh;
+    }
+
+    .base-hero-title {
+        font-size: 3rem;
+    }
+
+    .base-hero-description {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: 40vh;
+    }
+
+    .base-hero-title {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
+
+    .base-hero-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/*================== Global Base Styles (Provided in prompt) ====================*/
+
+/* (Retain all your Base Colors & Text, Titles, Buttons, Links, Backgrounds CSS here) */
+
+/* --- Stat Boxes (Using base-about-stat) --- */
 .base-about-stat {
-    padding: 1rem 1.5rem;
+    padding: 1.2rem 1.5rem; /* Increased padding */
     border-radius: 12px;
     min-width: 130px;
     text-align: center;
-    background-color: #FFFFFF; /* White background for stats */
-    color: #333333; /* Dark gray text */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    background-color: #FFFFFF;
+    color: #333333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Softer initial shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #EEEEEE; /* Subtle border for definition */
+    border: 1px solid #EEEEEE;
 }
 
-    /* About Stat Box Hover Effect */
     .base-about-stat:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
-    }
-    .base-about-stat:nth-child(1) {
-        border-color: #0099FF;
-        color: #333333;
-    }
-    .base-about-stat:nth-child(2) {
-        border-color: #0099FF;
-        color: #333333;
-    }
-    .base-about-stat:nth-child(3) {
-        border-color: #0099FF; /* Matching border color */
-        color: #333333;
-    }
-    /* Stat text inside these boxes */
-    .base-about-stat h3 {
-        color: inherit; /* Inherit color from parent stat box */
-        font-weight: 700; /* Bold numbers */
-        margin-bottom: 0.2rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Lighter, higher lift shadow on hover */
     }
 
-    .base-about-stat p {
-        color: inherit; /* Inherit color from parent stat box */
-        font-size: 0.95rem;
-        opacity: 0.9; /* Slightly softer text */
+/* Stat Accent Styling */
+.base-stat-1 {
+    border-bottom: 4px solid #0099FF; /* Brand Cyan accent */
+}
+
+.base-stat-2 {
+    border-bottom: 4px solid #555555; /* Darker accent */
+}
+/* Stat 3 uses a solid background for maximum contrast/impact */
+.base-stat-3 {
+    background-color: #0099FF; /* Brand Cyan */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-bottom: 4px solid #0077CC;
+}
+
+    .base-stat-3 h3, .base-stat-3 p {
+        color: #FFFFFF !important;
     }
 
+/* Stat Text */
+.base-about-stat h3 {
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    font-size: 2.2rem;
+}
 
-/* Play Button for Video */
+.base-about-stat p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+
+/* --- Video Section --- */
+.base-video-wrapper {
+    position: relative;
+    z-index: 1; /* Ensure video wrapper is above surrounding elements if any */
+}
+
+/* Play Button (YouTube Red-inspired, but softened) */
 .base-play-btn {
     width: 70px;
     height: 70px;
-    /* background: linear-gradient(135deg, #0099FF, #0077CC); */
-    background: linear-gradient(135deg, #FF4D4D, #E63946);
+    background: linear-gradient(135deg, #FF4D4D, #E63946); /* Softer Red Gradient */
     border: none;
     color: #fff;
     font-size: 2rem;
@@ -105,85 +250,99 @@
     border-radius: 50%;
     box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
-    /* Play Button Hover Effect */
     .base-play-btn:hover {
         transform: scale(1.1);
-        box-shadow: 0 10px 30px rgba(0, 153, 255, 0.6); /* More pronounced cyan shadow */
+        /* Changed shadow back to the RED accent for consistency with button color */
+        box-shadow: 0 10px 30px rgba(255, 77, 77, 0.6);
     }
 
-/* Video Wrapper Image */
 .base-video-wrapper img {
     border-radius: 1rem;
     transition: transform 0.5s ease, filter 0.5s ease;
-    object-fit: cover; /* Ensure image covers the area */
+    object-fit: cover;
 }
 
-    /* Video Wrapper Image Hover Effect */
     .base-video-wrapper img:hover {
-        transform: scale(1.05);
+        transform: scale(1.02); /* Reduced scale slightly */
         filter: brightness(0.85);
     }
 
+/* --- Section Heading/Text Overrides --- */
 
-/* --- General Section Headings and Text (re-using base classes) --- */
-
-/* For the main H1 "About Bits Bangla" */
-.base-section-heading {
-    /* Uses .base-main-title for primary text color and other properties */
-    color: #333333; /* Dark gray */
-    font-size: 2.5rem; /* Slightly smaller than hero H1 if needed */
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/* For the description paragraph under the main heading */
+/* For the main H1 "About Jatra Software" */
 .base-section-description {
-    color: #666666; /* Slightly lighter gray for paragraph text */
-    font-size: 1.1rem; /* Adjust as per your original 1.2rem */
-    line-height: 1.7; /* Good line spacing for readability */
-    max-width: 75%; /* Constrain width for readability */
+    color: #666666;
+    font-size: 1.25rem; /* Slightly larger */
+    line-height: 1.7;
+    max-width: 75%;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* For the H3 title "AboutSection.Title" */
+/* For the H3 title (Right side of content block) */
 .base-sub-heading {
-    color: #333333; /* Dark gray */
-    font-size: 1.8rem; /* Suitable for H3 */
+    color: #333333;
+    font-size: 2rem; /* Slightly larger */
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 /* For the paragraph below H3 */
 .base-sub-description {
-    color: #666666; /* Lighter gray for readability */
+    color: #666666;
     font-size: 1.1rem;
     line-height: 1.7;
 }
 
+/* --- CTA Section Styling --- */
+.base-contact-cta {
+    background: linear-gradient(135deg, #0099FF, #0077CC); /* Using Brand Cyan gradient */
+    color: #FFFFFF;
+}
+
+/* Inverted CTA button (white background on dark banner) */
+.base-cta-inverted {
+    background-color: #FFFFFF !important;
+    color: #0099FF !important; /* Brand Cyan text */
+    border: 1px solid #FFFFFF !important;
+    transition: all 0.3s ease;
+}
+
+    .base-cta-inverted:hover {
+        background-color: #DDDDDD !important; /* Slight gray hover */
+        transform: translateY(-2px);
+    }
+
+
 /* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .base-about-stat {
+        padding: 1rem 1rem;
+        min-width: unset;
+    }
+}
+
 @media (max-width: 768px) {
     .base-section-heading {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .base-section-description {
-        font-size: 1rem;
-        width: 90% !important; /* Adjust width for mobile */
+        font-size: 1.1rem;
+        width: 95% !important;
+    }
+
+    .base-sub-heading {
+        font-size: 1.7rem;
     }
 
     .base-about-stat {
-        min-width: unset; /* Remove min-width to allow full width on small screens */
-        width: 100%; /* Make them full width on mobile if desired */
-        margin-bottom: 1rem; /* Add space between stacked stats */
-    }
-
-    .base-play-btn {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
+        min-width: unset;
+        width: 100%;
+        margin-bottom: 1rem;
     }
 }
 
